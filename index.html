@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบรายงาน ส.ดพ.บางบอน v2.2.7</title>
+    <title>ระบบรายงาน ส.ดพ.บางบอน v2.2.8</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Kanit', sans-serif; margin: 0; background-color: #121212; color: #e0e0e0; padding-bottom: 80px; }
@@ -28,7 +28,7 @@
 <body>
 
 <header>
-    <h2>🚒 ส.ดพ.บางบอน (V2.2.7)</h2>
+    <h2>🚒 ส.ดพ.บางบอน (V2.2.8)</h2>
 </header>
 
 <div class="container">
@@ -59,22 +59,25 @@
 
     <div class="form-group group-rescue">
         <h3>🐾 รายงานช่วยเหลือประชาชน</h3>
-        <label>🐾 ประเภทสัตว์ / เหตุที่ช่วยเหลือ</label>
-        <select id="res_type">
-            <option value="งูเหลือม">งูเหลือม</option><option value="งูเห่า">งูเห่า</option><option value="งูเขียว">งูเขียว</option><option value="ตัวเงินตัวทอง">ตัวเงินตัวทอง</option><option value="กำจัดรังต่อ">กำจัดรังต่อ</option><option value="กำจัดรังผึ้ง">กำจัดรังผึ้ง</option><option value="แมว">แมว</option><option value="สุนัข">สุนัข</option>
-        </select>
-        <label>📏 ขนาด/จำนวน (เมตร/ตัว/รัง)</label>
-        <input type="number" id="res_len" step="0.1" placeholder="ระบุตัวเลข">
+        <label>🐾 ชนิดสัตว์ / เหตุที่ช่วยเหลือ</label>
+        <input type="text" id="res_type_text" placeholder="เช่น งูเหลือม, กำจัดรังต่อ, ช่วยแมว">
+        
+        <label>📏 ขนาด/จำนวน (ระบุหน่วยเอง)</label>
+        <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร, 1 ตัว, 3 รัง">
 
         <label>📍 สถานที่ / พิกัด</label>
         <input type="text" id="res_place" placeholder="ระบุสถานที่ หรือ วางลิงก์ GPS">
 
-        <label>🚒 รถที่ออกเหตุ</label>
-        <div class="car-grid">
-            <select id="res_car1"><option value="">-- รถ 1 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option></select>
-            <select id="res_car2"><option value="">-- รถ 2 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option></select>
-            <select id="res_car3"><option value="">-- รถ 3 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option></select>
-        </div>
+        <label>🚒 รถที่ออกเหตุ (1 คัน)</label>
+        <select id="res_car_single">
+            <option value="">-- เลือกคันรถ --</option>
+            <option value="บางบอน 061-1">บางบอน 061-1</option>
+            <option value="บางบอน 062-1">บางบอน 062-1</option>
+            <option value="บางบอน 041-1">บางบอน 041-1</option>
+            <option value="บางบอน 051-1">บางบอน 051-1</option>
+            <option value="บางบอน 052-1">บางบอน 052-1</option>
+            <option value="บางบอน 053-1">บางบอน 053-1</option>
+        </select>
 
         <div class="time-grid">
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="r_t1"></div>
@@ -126,15 +129,7 @@
     }
 
     function reportRescue() {
-        let cars = [];
-        for(let i=1; i<=3; i++) {
-            let val = document.getElementById('res_car' + i).value;
-            if(val) cars.push(val);
-        }
-        const carDisplay = cars.length > 0 ? cars.join(', ') : '-';
-        const type = document.getElementById('res_type').value;
-        let unit = type.includes("รัง") ? "รัง" : (["แมว", "สุนัข", "ตัวเงินตัวทอง"].includes(type) ? "ตัว" : "เมตร");
-        const text = `ส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${type}\nขนาด/จำนวน: ${document.getElementById('res_len').value || '0'} ${unit}\nสถานที่/พิกัด: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${carDisplay}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
+        const text = `ส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${document.getElementById('res_type_text').value || '-'}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่/พิกัด: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
         process(text);
     }
 </script>
