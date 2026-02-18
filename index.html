@@ -39,36 +39,9 @@
         
         <label>🚒 รถที่ออกเหตุ (สูงสุด 3 คัน)</label>
         <div class="car-grid">
-            <select id="fire_car1">
-                <option value="">-- รถ 1 --</option>
-                <option value="บางบอน 061-1">บางบอน 061-1</option>
-                <option value="บางบอน 062-1">บางบอน 062-1</option>
-                <option value="บางบอน 041-1">บางบอน 041-1</option>
-                <option value="บางบอน 051-1">บางบอน 051-1</option>
-                <option value="บางบอน 052-1">บางบอน 052-1</option>
-                <option value="บางบอน 052-2">บางบอน 052-2</option>
-                <option value="บางบอน 053-1">บางบอน 053-1</option>
-            </select>
-            <select id="fire_car2">
-                <option value="">-- รถ 2 --</option>
-                <option value="บางบอน 061-1">บางบอน 061-1</option>
-                <option value="บางบอน 062-1">บางบอน 062-1</option>
-                <option value="บางบอน 041-1">บางบอน 041-1</option>
-                <option value="บางบอน 051-1">บางบอน 051-1</option>
-                <option value="บางบอน 052-1">บางบอน 052-1</option>
-                <option value="บางบอน 052-2">บางบอน 052-2</option>
-                <option value="บางบอน 053-1">บางบอน 053-1</option>
-            </select>
-            <select id="fire_car3">
-                <option value="">-- รถ 3 --</option>
-                <option value="บางบอน 061-1">บางบอน 061-1</option>
-                <option value="บางบอน 062-1">บางบอน 062-1</option>
-                <option value="บางบอน 041-1">บางบอน 041-1</option>
-                <option value="บางบอน 051-1">บางบอน 051-1</option>
-                <option value="บางบอน 052-1">บางบอน 052-1</option>
-                <option value="บางบอน 052-2">บางบอน 052-2</option>
-                <option value="บางบอน 053-1">บางบอน 053-1</option>
-            </select>
+            <select id="fire_car1"><option value="">-- รถ 1 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option><option value="บางบอน 052-1">บางบอน 052-1</option><option value="บางบอน 052-2">บางบอน 052-2</option><option value="บางบอน 053-1">บางบอน 053-1</option></select>
+            <select id="fire_car2"><option value="">-- รถ 2 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option><option value="บางบอน 052-1">บางบอน 052-1</option><option value="บางบอน 052-2">บางบอน 052-2</option><option value="บางบอน 053-1">บางบอน 053-1</option></select>
+            <select id="fire_car3"><option value="">-- รถ 3 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option><option value="บางบอน 052-1">บางบอน 052-1</option><option value="บางบอน 052-2">บางบอน 052-2</option><option value="บางบอน 053-1">บางบอน 053-1</option></select>
         </div>
 
         <div class="time-grid">
@@ -81,31 +54,19 @@
         </div>
         <textarea id="fire_team" rows="2" placeholder="ผู้ออกปฏิบัติหน้าที่..."></textarea>
         <input type="text" id="fire_sender" placeholder="ผู้รายงาน (เรียกขาน)">
-        <button class="btn-submit btn-red" onclick="reportFire()">คัดลอกรายงานเพลิงไหม้</button>
+        <button class="btn-submit btn-red" onclick="reportFire()">คัดลอกและส่งรายงานเพลิงไหม้</button>
     </div>
 
     <div class="form-group group-rescue">
         <h3>🐾 รายงานช่วยเหลือประชาชน</h3>
         <label>🐾 ชนิดสัตว์ / เหตุที่ช่วยเหลือ</label>
         <input type="text" id="res_type_text" placeholder="เช่น งูเหลือม, กำจัดรังต่อ, ช่วยแมว">
-        
-        <label>📏 ขนาด/จำนวน (ระบุหน่วยเอง)</label>
+        <label>📏 ขนาด/จำนวน</label>
         <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร, 1 ตัว, 3 รัง">
-
         <label>📍 สถานที่ / พิกัด</label>
         <input type="text" id="res_place" placeholder="ระบุสถานที่ หรือ วางลิงก์ GPS">
-
-        <label>🚒 รถที่ออกเหตุ (1 คัน)</label>
-        <select id="res_car_single">
-            <option value="">-- เลือกคันรถ --</option>
-            <option value="บางบอน 061-1">บางบอน 061-1</option>
-            <option value="บางบอน 062-1">บางบอน 062-1</option>
-            <option value="บางบอน 041-1">บางบอน 041-1</option>
-            <option value="บางบอน 051-1">บางบอน 051-1</option>
-            <option value="บางบอน 052-1">บางบอน 052-1</option>
-            <option value="บางบอน 052-2">บางบอน 052-2</option>
-            <option value="บางบอน 053-1">บางบอน 053-1</option>
-        </select>
+        <label>🚒 รถที่ออกเหตุ</label>
+        <select id="res_car_single"><option value="">-- เลือกคันรถ --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option><option value="บางบอน 052-1">บางบอน 052-1</option><option value="บางบอน 052-2">บางบอน 052-2</option><option value="บางบอน 053-1">บางบอน 053-1</option></select>
 
         <div class="time-grid">
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="r_t1"></div>
@@ -116,33 +77,52 @@
         </div>
         <textarea id="res_team" rows="2" placeholder="รายชื่อเจ้าหน้าที่..."></textarea>
         <input type="text" id="res_sender" placeholder="ผู้รายงาน">
-        <button class="btn-submit btn-yellow" onclick="reportRescue()">คัดลอกรายงานการช่วยเหลือ</button>
+        <button class="btn-submit btn-yellow" onclick="reportRescue()">คัดลอกและส่งรายงานการช่วยเหลือ</button>
     </div>
 
-    <div id="copyHint" class="copy-hint">✅ คัดลอกสำเร็จ!</div>
+    <div id="copyHint" class="copy-hint">✅ คัดลอกและบันทึกข้อมูลแล้ว!</div>
     <div id="output"></div>
 </div>
 
 <script>
-    function process(text) {
-        const out = document.getElementById('output');
+    // URL สำหรับส่งข้อมูลไป Google Sheets (เปลี่ยนเป็น URL ของคุณ)
+    const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL";
+
+    function showHint() {
         const hint = document.getElementById('copyHint');
+        hint.style.display = 'block';
+        setTimeout(() => { hint.style.display = 'none'; }, 2500);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    async function processAndSend(text, jsonData) {
+        const out = document.getElementById('output');
         out.innerText = text;
         out.style.display = 'block';
+
+        // 1. คัดลอกลง Clipboard
         if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text).then(() => { showHint(hint); });
+            await navigator.clipboard.writeText(text);
         } else {
             let textArea = document.createElement("textarea");
             textArea.value = text; document.body.appendChild(textArea);
             textArea.select(); document.execCommand('copy');
-            document.body.removeChild(textArea); showHint(hint);
+            document.body.removeChild(textArea);
         }
-    }
 
-    function showHint(hint) {
-        hint.style.display = 'block';
-        setTimeout(() => { hint.style.display = 'none'; }, 2000);
-        window.scrollTo(0, document.body.scrollHeight);
+        showHint();
+
+        // 2. ส่งไป Google Sheet (Background)
+        if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL") {
+            try {
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(jsonData)
+                });
+            } catch (e) { console.error("Error sending to sheet:", e); }
+        }
     }
 
     function reportFire() {
@@ -151,37 +131,37 @@
             let val = document.getElementById('fire_car' + i).value;
             if(val) cars.push(val);
         }
-        const carDisplay = cars.length > 0 ? cars.join(', ') : '-';
-        const text = `ส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่/พิกัด: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${carDisplay}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
-        process(text);
+        const text = `ส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่/พิกัด: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${cars.join(', ') || '-'}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
+        
+        const data = {
+            type: "เพลิงไหม้",
+            place: document.getElementById('fire_place').value,
+            cars: cars.join(', '),
+            time_report: document.getElementById('f_t1').value,
+            time_finish: document.getElementById('f_t5').value,
+            staff: document.getElementById('fire_team').value,
+            sender: document.getElementById('fire_sender').value
+        };
+        processAndSend(text, data);
     }
 
     function reportRescue() {
         const text = `ส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${document.getElementById('res_type_text').value || '-'}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่/พิกัด: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
-        process(text);
+        
+        const data = {
+            type: "ช่วยเหลือประชาชน",
+            detail: document.getElementById('res_type_text').value,
+            size: document.getElementById('res_len_text').value,
+            place: document.getElementById('res_place').value,
+            car: document.getElementById('res_car_single').value,
+            time_report: document.getElementById('r_t1').value,
+            time_finish: document.getElementById('r_t4').value,
+            staff: document.getElementById('res_team').value,
+            sender: document.getElementById('res_sender').value
+        };
+        processAndSend(text, data);
     }
-    
 </script>
+
 </body>
-</html> 
-<script>
-    // ... ฟังก์ชัน process, showHint, reportFire, reportRescue เดิมของคุณ ...
-
-    // เพิ่มฟังก์ชันส่งข้อมูลไป Google Sheet (ถ้าต้องการ)
-    async function sendToSheet(data) {
-        const SHEET_URL = "YOUR_GOOGLE_SCRIPT_URL"; // ใส่ URL ที่ได้จาก Google Apps Script
-        try {
-            await fetch(SHEET_URL, {
-                method: 'POST',
-                mode: 'no-cors', // สำคัญสำหรับ Google Apps Script
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-        } catch (e) {
-            console.error("ส่งข้อมูลไม่สำเร็จ", e);
-        }
-    }
-
-    // ในฟังก์ชัน reportFire() หรือ reportRescue() 
-    // คุณสามารถเรียกใช้ sendToSheet({ type: 'fire', detail: text }); ได้เลย
-</script>
+</html>
