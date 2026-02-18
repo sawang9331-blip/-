@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบรายงาน ส.ดพ.บางบอน v2.2.4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Kanit', sans-serif; margin: 0; background-color: #121212; color: #e0e0e0; padding-bottom: 80px; }
+        header { background-color: #b71c1c; padding: 15px; text-align: center; border-bottom: 3px solid #ffeb3b; position: sticky; top: 0; z-index: 1000; }
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+        .form-group { background-color: #1e1e1e; padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); border-top: 5px solid #444; }
+        .group-fire { border-top-color: #ff5252; }
+        .group-rescue { border-top-color: #ffeb3b; }
+        h3 { margin-top: 0; display: flex; align-items: center; gap: 10px; color: #fff; }
+        label { display: block; margin-bottom: 5px; font-size: 13px; color: #bbb; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #444; background-color: #2c2c2c; color: white; font-size: 16px; box-sizing: border-box; }
+        .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #252525; padding: 10px; border-radius: 8px; margin-bottom: 15px; }
+        .time-item label { color: #ffeb3b; font-size: 11px; }
+        .btn-submit { width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-red { background-color: #d32f2f; color: white; }
+        .btn-yellow { background-color: #fbc02d; color: #000; }
+        #output { background: #fff; color: #000; padding: 15px; border-radius: 10px; margin-top: 20px; white-space: pre-wrap; display: none; border-left: 8px solid #2e7d32; font-size: 15px; line-height: 1.6; }
+        .copy-hint { color: #4caf50; font-weight: bold; display: none; text-align: center; margin: 15px 0; font-size: 18px; border: 2px solid #4caf50; padding: 10px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🚒 ส.ดพ.บางบอน (V2.2.4)</h2>
+</header>
+
+<div class="container">
+    <div class="form-group group-fire">
+        <h3>🔥 รายงานเหตุเพลิงไหม้</h3>
+        <label>📍 สถานที่เกิดเหตุ / พิกัด</label>
+        <input type="text" id="fire_place" placeholder="ระบุสถานที่ หรือ วางลิงก์ GPS">
+        
+        <label>🚒 รถที่ออกเหตุ</label>
+        <select id="fire_car">
+            <option value="บางบอน 061-1">บางบอน 061-1</option>
+            <option value="บางบอน 062-1">บางบอน 062-1</option>
+            <option value="บางบอน 041-1">บางบอน 041-1</option>
+            <option value="บางบอน 051-1">บางบอน 051-1</option>
+            <option value="บางบอน 052-1">บางบอน 052-1</option>
+            <option value="บางบอน 053-1">บางบอน 053-1</option>
+        </select>
+
+        <div class="time-grid">
+            <div class="time-item"><label>เวลารับแจ้ง</label><input type="time" id="f_t1"></div>
+            <div class="time-item"><label>เวลาแจ้งออก</label><input type="time" id="f_t2"></div>
+            <div class="time-item"><label>เวลา ว.10</label><input type="time" id="f_t3"></div>
+            <div class="time-item"><label>เริ่มใช้น้ำ</label><input type="time" id="f_t4"></div>
+            <div class="time-item"><label>เลิก ว.10</label><input type="time" id="f_t5"></div>
+            <div class="time-item"><label>ว.4 ส.ดพ.</label><input type="time" id="f_t6"></div>
+        </div>
+        <textarea id="fire_team" rows="2" placeholder="ผู้ออกปฏิบัติหน้าที่..."></textarea>
+        <input type="text" id="fire_sender" placeholder="ผู้รายงาน (เรียกขาน)">
+        <button class="btn-submit btn-red" onclick="reportFire()">คัดลอกรายงานเพลิงไหม้</button>
+    </div>
+
+    <div class="form-group group-rescue">
+        <h3>🐾 รายงานช่วยเหลือประชาชน</h3>
+        <label>🐾 ประเภทสัตว์ / เหตุที่ช่วยเหลือ</label>
+        <select id="res_snake_type">
+            <optgroup label="🐍 ประเภทงู">
+                <option value="งูเหลือม">งูเหลือม</option>
+                <option value="งูหลาม">งูหลาม</option>
+                <option value="งูเห่า">งูเห่า</option>
+                <option value="งูจงอาง">งูจงอาง</option>
+                <option value="งูเขียวหางไหม้">งูเขียวหางไหม้</option>
+                <option value="งูเขียวพระอินทร์">งูเขียวพระอินทร์</option>
+                <option value="งูแสงอาทิตย์">งูแสงอาทิตย์</option>
+                <option value="งูก้นขบ">งูก้นขบ</option>
+                <option value="งูสามเหลี่ยม">งูสามเหลี่ยม</option>
+            </optgroup>
+            <optgroup label="🐝 แมลงมีพิษ">
+                <option value="กำจัดรังผึ้ง">กำจัดรังผึ้ง</option>
+                <option value="กำจัดรังต่อ">กำจัดรังต่อ</option>
+                <option value="กำจัดรังแตน">กำจัดรังแตน</option>
+            </optgroup>
+            <optgroup label="🐕 สัตว์อื่นๆ">
+                <option value="สุนัข">สุนัข</option>
+                <option value="แมว">แมว</option>
+                <option value="ลิง">ลิง</option>
+                <option value="เสือ">เสือ</option>
+                <option value="ตัวเงินตัวทอง">ตัวเงินตัวทอง</option>
+            </optgroup>
+        </select>
+        
+        <label>📏 ขนาดความยาว (ม.) / จำนวน (รัง/ตัว)</label>
+        <input type="number" id="res_len" step="0.1" placeholder="ระบุตัวเลข">
+
+        <label>📍 สถานที่เกิดเหตุ / พิกัด</label>
+        <input type="text" id="res_place" placeholder="ระบุสถานที่ หรือ วางลิงก์ GPS">
+
+        <div class="time-grid">
+            <div class="time-item"><label>รับแจ้ง</label><input type="time" id="r_t1"></div>
+            <div class="time-item"><label>แจ้งออก</label><input type="time" id="r_t2"></div>
+            <div class="time-item"><label>ว.10</label><input type="time" id="r_t3"></div>
+            <div class="time-item"><label>เลิก ว.10</label><input type="time" id="r_t4"></div>
+            <div class="time-item"><label>ว.4 ส.ดพ.</label><input type="time" id="r_t5"></div>
+        </div>
+        <textarea id="res_team" rows="2" placeholder="รายชื่อเจ้าหน้าที่..."></textarea>
+        <input type="text" id="res_sender" placeholder="ผู้รายงาน">
+        <button class="btn-submit btn-yellow" onclick="reportRescue()">คัดลอกรายงานการช่วยเหลือ</button>
+    </div>
+
+    <div id="copyHint" class="copy-hint">✅ คัดลอกสำเร็จ!</div>
+    <div id="output"></div>
+</div>
+
+<script>
+    function process(text) {
+        const out = document.getElementById('output');
+        const hint = document.getElementById('copyHint');
+        
+        out.innerText = text;
+        out.style.display = 'block';
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(() => {
+                showHint(hint);
+            });
+        } else {
+            let textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showHint(hint);
+        }
+    }
+
+    function showHint(hint) {
+        hint.style.display = 'block';
+        setTimeout(() => { hint.style.display = 'none'; }, 2000);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function reportFire() {
+        const text = `ส.ดพ.บางบอน
+🔥 รายงานเหตุเพลิงไหม้
+สถานที่/พิกัด: ${document.getElementById('fire_place').value || '-'}
+รถ: ${document.getElementById('fire_car').value}
+เวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.
+เวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.
+เวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.
+เริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.
+เลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.
+ว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.
+ผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}
+ผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
+        process(text);
+    }
+
+    function reportRescue() {
+        const type = document.getElementById('res_snake_type').value;
+        let unit = "เมตร/รัง/ตัว";
+        if (type.includes("กำจัดรัง")) unit = "รัง";
+        else if (["สุนัข", "แมว", "ลิง", "เสือ", "ตัวเงินตัวทอง"].includes(type)) unit = "ตัว";
+        else unit = "เมตร";
+
+        const text = `ส.ดพ.บางบอน
+🐾 เหตุช่วยเหลือประชาชน
+ชนิด: ${type}
+ขนาด/จำนวน: ${document.getElementById('res_len').value || '0'} ${unit}
+สถานที่/พิกัด: ${document.getElementById('res_place').value || '-'}
+เวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.
+เวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.
+เวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.
+เลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.
+ว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.
+ผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}
+ผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
+        process(text);
+    }
+</script>
+</body>
+</html>
