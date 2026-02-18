@@ -36,7 +36,7 @@
 
 <header>
     <h2>🚒 ส.ดพ.บางบอน (V2.2)</h2>
-    <p>ระบบรายงาน - แก้ไขประเภทงู</p>
+    <p>ระบบรายงาน</p>
 </header>
 
 <div class="container">
@@ -45,8 +45,8 @@
         <h3>🔥 รายงานเหตุเพลิงไหม้</h3>
         <label>📍 พิกัดสถานที่เกิดเหตุ</label>
         <button type="button" class="btn-gps" onclick="getLocation('fire_loc')">📍 กดเพื่อดึงพิกัด GPS ปัจจุบัน</button>
-        <input type="text" id="fire_loc" placeholder="ระบุสถานที่ หรือใช้ GPS ด้านบน">
-        
+        <input type="text" id="fire_loc" placeholder="GPS ด้านบน">
+        <input type="text" id="fire_loc" placeholder="ระบุสถานที่ ด้านบน">       
         <label>🚒 รถที่ออกเหตุ</label>
         <select id="fire_car">
             <option value="บางบอน 061-1">บางบอน 061-1</option>
@@ -55,14 +55,14 @@
             <option value="บางบอน 051-1">บางบอน 051-1</option>
             <option value="บางบอน 052-1">บางบอน 052-1</option>
             <option value="บางบอน 052-2">บางบอน 052-2</option>
-            <option value="บางบอน 053-1">บางบอน 053-1</option>
-        </select>
-
-        <div class="time-grid">
+            <option value="บางบอน 053-1">บางบอน 053-1</optoption       </selselect    
+          <input type="text" id="fire_loc" placeholder="ระบุรถดับเพลิง1>
+        <input type="text" id="fire_loc" plplaceholderระบุรถดับเพลิง2
+            <div class="time-grid">
             <div class="time-item"><label>เวลารับแจ้ง</label><input type="time" id="f_t1"></div>
             <div class="time-item"><label>เวลาแจ้งออก</label><input type="time" id="f_t2"></div>
             <div class="time-item"><label>เวลา ว.10</label><input type="time" id="f_t3"></div>
-            <div class="time-item"><label>เวลาเริ่มใช้น้ำ</label><input type="time" id="f_t4"></div>
+  ประเภทงู  <div class="time-item"><label>เวลาเริ่มใช้น้ำ</label><input type="time" id="f_t4"></div>
             <div class="time-item"><label>เวลาเลิก ว.10</label><input type="time" id="f_t5"></div>
             <div class="time-item"><label>เวลา ว.4 ส.ดพ.</label><input type="time" id="f_t6"></div>
         </div>
@@ -74,7 +74,7 @@
     <div class="form-group group-rescue">
         <h3>🐍 รายงานช่วยเหลือประชาชน (จับงู)</h3>
         
-        <label>🐍 ประเภทงู</label>
+        <label>🐍 ประเภทสัตว์<abel>
         <select id="res_snake_type">
             <option value="งูเหลือม">งูเหลือม</option>
             <option value="งูหลาม">งูหลาม</option>
@@ -82,10 +82,8 @@
             <option value="งูจงอาง">งูจงอาง</option>
             <option value="งูเขียวพระอินทร์">งูเขียวพระอินทร์</option>
             <option value="งูทางมะพร้าว">งูทางมะพร้าว</option>
-            <option value="งูแสงอาทิตย์">งูแสงอาทิตย์</option>
-            <option value="ไม่ทราบชนิด / ระบุเอง">อื่นๆ (ระบุในหมายเหตุ)</option>
-        </select>
-        
+            <option value="งูแสงอาทิตย์">งูแสงอาทิตย์</optoption> 
+        <input type="text" id="fire_loc" placeholder="ประเภทสัตว์ ผึ้ง หรือ labelbelา      </selselect       
         <label>📏 ความยาวประมาณ (เมตร)</label>
         <input type="number" id="res_len" step="0.1" placeholder="เช่น 1.5">
 
@@ -94,7 +92,7 @@
         <input type="text" id="res_loc_gps" placeholder="ระบุที่อยู่ หรือใช้ GPS">
 
         <label>🚒 รถที่ออกเหตุ</label>
-        <input type="text" id="res_car" value="บางบอน 041-1">
+        <input type="text" id="res_car" value="บางบอน 061-1">
 
         <div class="time-grid">
             <div class="time-item"><label>เวลารับแจ้ง</label><input type="time" id="r_t1"></div>
