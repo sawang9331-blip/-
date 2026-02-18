@@ -160,11 +160,28 @@
         const text = `ส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${document.getElementById('res_type_text').value || '-'}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่/พิกัด: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
         process(text);
     }
-      - name: บันทึกข้อมูลลง Google Sheet
-      run: |
-        curl -L -X POST "${{ secrets.GOOGLE_SHEET_URL }}" \
-        -H "Content-Type: application/json" \
-        -d "{\"value\": \"รันโปรเจกต์สำเร็จเมื่อ $(date +'%Y-%m-%d %H:%M:%S')\"}"
+    
 </script>
 </body>
-</html>
+</html> 
+<script>
+    // ... ฟังก์ชัน process, showHint, reportFire, reportRescue เดิมของคุณ ...
+
+    // เพิ่มฟังก์ชันส่งข้อมูลไป Google Sheet (ถ้าต้องการ)
+    async function sendToSheet(data) {
+        const SHEET_URL = "YOUR_GOOGLE_SCRIPT_URL"; // ใส่ URL ที่ได้จาก Google Apps Script
+        try {
+            await fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors', // สำคัญสำหรับ Google Apps Script
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+        } catch (e) {
+            console.error("ส่งข้อมูลไม่สำเร็จ", e);
+        }
+    }
+
+    // ในฟังก์ชัน reportFire() หรือ reportRescue() 
+    // คุณสามารถเรียกใช้ sendToSheet({ type: 'fire', detail: text }); ได้เลย
+</script>
