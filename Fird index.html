@@ -157,17 +157,17 @@
 
     function reportFire() {
         const car = document.getElementById('fire_car_select').value + (document.getElementById('fire_car_extra').value ? ', ' + document.getElementById('fire_car_extra').value : '');
-        const text = `ส.ดพ.บางบอน\n📌 รายงานเหตุเพลิงไหม้\n` +
-            `สถานที่: ${document.getElementById('fire_place').value}\n` +
-            `GPS: ${document.getElementById('fire_gps').value}\n` +
-            `รถที่ออกเหตุ: ${car}\n` +
-            `เวลารับแจ้ง: ${document.getElementById('f_t1').value} น.\n` +
-            `เวลาแจ้งออก: ${document.getElementById('f_t2').value} น.\n` +
-            `เวลา ว.10: ${document.getElementById('f_t3').value} น.\n` +
-            `เวลาเริ่มใช้น้ำ: ${document.getElementById('f_t4').value} น.\n` +
-            `เวลาเลิก ว.10: ${document.getElementById('f_t5').value} น.\n` +
-            `เวลา ว.4 ส.ดพ.: ${document.getElementById('f_t6').value} น.\n` +
-            `ผู้ออกปฏิบัติหน้าที่: ${document.getElementById('fire_team').value}\n` +
+        const text = ส.ดพ.บางบอน\n📌 รายงานเหตุเพลิงไหม้\n +
+            สถานที่: ${document.getElementById('fire_place').value}\n +
+            GPS: ${document.getElementById('fire_gps').value}\n +
+            รถที่ออกเหตุ: ${car}\n +
+            เวลารับแจ้ง: ${document.getElementById('f_t1').value} น.\n +
+            เวลาแจ้งออก: ${document.getElementById('f_t2').value} น.\n +
+            เวลา ว.10: ${document.getElementById('f_t3').value} น.\n +
+            เวลาเริ่มใช้น้ำ: ${document.getElementById('f_t4').value} น.\n +
+            เวลาเลิก ว.10: ${document.getElementById('f_t5').value} น.\n +
+            เวลา ว.4 ส.ดพ.: ${document.getElementById('f_t6').value} น.\n +
+            ผู้ออกปฏิบัติหน้าที่: ${document.getElementById('fire_team').value}\n +
             `ผู้รายงาน: ${document.getElementById('fire_sender').value}`;
         processReport(text);
     }
@@ -176,30 +176,8 @@
         let animal = document.getElementById('res_snake_type').value;
         if(animal === "อื่นๆ") animal = document.getElementById('res_other').value;
 
-        const text = `ส.ดพ.บางบอน\n🐍 เหตุช่วยเหลือประชาชน\n` +
-            `ชนิดสัตว์: ${animal}\n` +
-            `ความยาวประมาณ: ${document.getElementById('res_len').value} เมตร\n` +
-            `สถานที่/GPS: ${document.getElementById('res_loc_gps').value}\n` +
-            `รถที่ออกเหตุ: ${document.getElementById('res_car').value}\n` +
-            `เวลารับแจ้ง: ${document.getElementById('r_t1').value} น.\n` +
-            `เวลาแจ้งออก: ${document.getElementById('r_t2').value} น.\n` +
-            `เวลา ว.10: ${document.getElementById('r_t3').value} น.\n` +
-            `เวลาเลิก ว.10: ${document.getElementById('r_t4').value} น.\n` +
-            `เวลา ว.4 ส.ดพ.: ${document.getElementById('r_t5').value} น.\n` +
-            `ผู้ออกปฏิบัติหน้าที่: ${document.getElementById('res_team').value}\n` +
-            `ผู้รายงาน: ${document.getElementById('res_sender').value}`;
-        processReport(text);
-    }
-
-    function reportEq() {
-        const text = `ส.ดพ.บางบอน\n🛠 รายงานตรวจเช็กอุปกรณ์\n` +
-            `ประเภท: ${document.getElementById('eq_type').value}\n` +
-            `บันทึก: ${document.getElementById('eq_note').value}\n` +
-            `ผู้ออกตรวจ: ${document.getElementById('eq_team').value}`;
-        processReport(text);
-    }
-</script>
-
-</body>
-        </html>
-        
+        const text = ส.ดพ.บางบอน\n🐍 เหตุช่วยเหลือประชาชน\n +
+            ชนิดสัตว์: ${animal}\n +
+            ความยาวประมาณ: ${document.getElementById('res_len').value} เมตร\n +
+            สถานที่/GPS: ${document.getElementById('res_loc_gps').value}\n +
+            รถที่ออกเหตุ: ${document.getElementById('res_car').value}\n +
