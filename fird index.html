@@ -23,6 +23,41 @@
         .btn-yellow { background-color: #fbc02d; color: #000; }
         #output { background: #fff; color: #000; padding: 15px; border-radius: 10px; margin-top: 20px; white-space: pre-wrap; display: none; border-left: 8px solid #2e7d32; font-size: 15px; line-height: 1.6; }
         .copy-hint { color: #4caf50; font-weight: bold; display: none; text-align: center; margin: 15px 0; font-size: 18px; border: 2px solid #4caf50; padding: 10px; border-radius: 8px; }
+
+        /* --- CSS เพิ่มเติมสำหรับหน้าต่างลอย --- */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .editor-container {
+            background: #252525;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid #444;
+        }
+        .editor-container h4 { color: #ffeb3b; margin-top: 0; }
+        #expanded-text {
+            width: 100%;
+            height: 250px;
+            background: #121212;
+            color: #fff;
+            padding: 15px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 18px;
+            resize: none;
+        }
+        .editor-footer { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-cancel { background: #555; color: white; flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; }
+        .btn-save { background: #2e7d32; color: white; flex: 2; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -52,7 +87,7 @@
             <div class="time-item"><label>เลิก ว.10</label><input type="time" id="f_t5"></div>
             <div class="time-item"><label>ว.4 ส.ดพ.</label><input type="time" id="f_t6"></div>
         </div>
-        <textarea id="fire_team" rows="2" placeholder="ผู้ออกปฏิบัติหน้าที่..."></textarea>
+        <textarea id="fire_team" rows="2" placeholder="แตะเพื่อระบุผู้ออกปฏิบัติหน้าที่..." readonly onclick="openEditor('fire_team')"></textarea>
         <input type="text" id="fire_sender" placeholder="ผู้รายงาน (เรียกขาน)">
         <button class="btn-submit btn-red" onclick="reportFire()">คัดลอกและส่งรายงานเพลิงไหม้</button>
     </div>
@@ -75,7 +110,7 @@
             <div class="time-item"><label>เลิก ว.10</label><input type="time" id="r_t4"></div>
             <div class="time-item"><label>ว.4 ส.ดพ.</label><input type="time" id="r_t5"></div>
         </div>
-        <textarea id="res_team" rows="2" placeholder="รายชื่อเจ้าหน้าที่..."></textarea>
+        <textarea id="res_team" rows="2" placeholder="แตะเพื่อระบุรายชื่อเจ้าหน้าที่..." readonly onclick="openEditor('res_team')"></textarea>
         <input type="text" id="res_sender" placeholder="ผู้รายงาน">
         <button class="btn-submit btn-yellow" onclick="reportRescue()">คัดลอกและส่งรายงานการช่วยเหลือ</button>
     </div>
@@ -84,8 +119,38 @@
     <div id="output"></div>
 </div>
 
+<div id="editorOverlay" class="overlay">
+    <div class="editor-container">
+        <h4>📝 ระบุรายชื่อเจ้าหน้าที่</h4>
+        <textarea id="expanded-text" placeholder="พิมพ์รายชื่อเจ้าหน้าที่..."></textarea>
+        <div class="editor-footer">
+            <button class="btn-cancel" onclick="closeEditor(false)">ยกเลิก</button>
+            <button class="btn-save" onclick="closeEditor(true)">ตกลง</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    // URL สำหรับส่งข้อมูลไป Google Sheets (เปลี่ยนเป็น URL ของคุณ)
+    let currentTargetId = ''; // เก็บว่ากำลังพิมพ์ให้ช่องไหนอยู่
+
+    // ฟังก์ชันเปิดหน้าต่างลอย
+    function openEditor(id) {
+        currentTargetId = id;
+        const mainVal = document.getElementById(id).value;
+        document.getElementById('expanded-text').value = mainVal;
+        document.getElementById('editorOverlay').style.display = 'flex';
+        document.getElementById('expanded-text').focus();
+    }
+
+    // ฟังก์ชันปิดหน้าต่างลอย
+    function closeEditor(isSave) {
+        if (isSave) {
+            const newVal = document.getElementById('expanded-text').value;
+            document.getElementById(currentTargetId).value = newVal;
+        }
+        document.getElementById('editorOverlay').style.display = 'none';
+    }
+
     const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL";
 
     function showHint() {
@@ -100,7 +165,6 @@
         out.innerText = text;
         out.style.display = 'block';
 
-        // 1. คัดลอกลง Clipboard
         if (navigator.clipboard && window.isSecureContext) {
             await navigator.clipboard.writeText(text);
         } else {
@@ -112,7 +176,6 @@
 
         showHint();
 
-        // 2. ส่งไป Google Sheet (Background)
         if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL") {
             try {
                 fetch(GOOGLE_SCRIPT_URL, {
