@@ -131,7 +131,7 @@
 
 <script>
     let currentTargetId = ''; 
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA3oH9n2SuIrJ3colhg_aOZvTCg3h4X4Z9TfkrTQhnCj3BatqpHU-vaqYFm9ZpyciIrw/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjz8fx46Lk6gd67pLyb6Fh_8Cz-XZrGXYveRoNL3vT9W8AXKff4nvZLu8cER0uNG9hYA/exec";
 
     function getThaiDate() {
         const now = new Date();
@@ -189,35 +189,44 @@
     }
 
     function reportFire() {
-        let cars = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value, document.getElementById('fire_car3').value].filter(v => v);
-        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${cars.join(', ') || '-'}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
-        
-        processAndSend(text, { 
-            type: "เพลิงไหม้", 
-            date: getThaiDate(),
-            place: document.getElementById('fire_place').value || '-',
-            staff: document.getElementById('fire_team').value || '-',
-            sender: document.getElementById('fire_sender').value || '-'
-        });
+    let cars = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value, document.getElementById('fire_car3').value].filter(v => v);
+    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${cars.join(', ') || '-'}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
+    
+    processAndSend(text, { 
+        type: "เพลิงไหม้", 
+        date: getThaiDate(),
+        place: document.getElementById('fire_place').value || '-',
+        staff: document.getElementById('fire_team').value || '-',
+        sender: document.getElementById('fire_sender').value || '-',
+        t1: document.getElementById('f_t1').value,
+        t2: document.getElementById('f_t2').value,
+        t3: document.getElementById('f_t3').value,
+        t4: document.getElementById('f_t4').value, // ใช้น้ำ
+        t5: document.getElementById('f_t6').value  // กลับ ส.ดพ.
+    });
+}
+
+   function reportRescue() {
+    let animalType = document.getElementById('res_type_text').value;
+    if(animalType === 'เหตุอื่นๆ') {
+        animalType = document.getElementById('res_type_other').value || 'เหตุอื่นๆ';
     }
 
-    function reportRescue() {
-        // ดึงค่าชนิดสัตว์ (ถ้าเลือกเหตุอื่นๆ ให้เอาค่าจากช่องพิมพ์)
-        let animalType = document.getElementById('res_type_text').value;
-        if(animalType === 'เหตุอื่นๆ') {
-            animalType = document.getElementById('res_type_other').value || 'เหตุอื่นๆ';
-        }
-
-        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${animalType}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
-        
-        processAndSend(text, { 
-            type: `ช่วยเหลือประชาชน (${animalType})`, 
-            date: getThaiDate(),
-            place: document.getElementById('res_place').value || '-',
-            staff: document.getElementById('res_team').value || '-',
-            sender: document.getElementById('res_sender').value || '-'
-        });
-    }
+    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${animalType}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
+    
+    processAndSend(text, { 
+        type: `ช่วยเหลือประชาชน (${animalType})`, 
+        date: getThaiDate(),
+        place: document.getElementById('res_place').value || '-',
+        staff: document.getElementById('res_team').value || '-',
+        sender: document.getElementById('res_sender').value || '-',
+        t1: document.getElementById('r_t1').value,
+        t2: document.getElementById('r_t2').value,
+        t3: document.getElementById('r_t3').value,
+        t4: document.getElementById('r_t4').value, // เลิก ว.10
+        t5: document.getElementById('r_t5').value  // ว.4 ส.ดพ.
+    });
+}
 </script>
 
 </body>
