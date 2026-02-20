@@ -1,39 +1,89 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบรายงาน ส.ดพ.บางบอน v2.3.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Kanit', sans-serif; margin: 0; background-color: #121212; color: #e0e0e0; padding-bottom: 80px; }
-        header { background-color: #b71c1c; padding: 15px; text-align: center; border-bottom: 3px solid #ffeb3b; position: sticky; top: 0; z-index: 1000; }
-        .container { padding: 15px; max-width: 600px; margin: auto; }
-        .form-group { background-color: #1e1e1e; padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); border-top: 5px solid #444; }
-        .group-fire { border-top-color: #ff5252; }
-        .group-rescue { border-top-color: #ffeb3b; }
-        h3 { margin-top: 0; display: flex; align-items: center; gap: 10px; color: #fff; }
-        label { display: block; margin-bottom: 5px; font-size: 13px; color: #bbb; }
-        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #444; background-color: #2c2c2c; color: white; font-size: 16px; box-sizing: border-box; cursor: pointer; }
-        .car-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-        .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #252525; padding: 10px; border-radius: 8px; margin-bottom: 15px; }
-        .time-item label { color: #ffeb3b; font-size: 11px; }
-        .btn-submit { width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-red { background-color: #d32f2f; color: white; }
-        .btn-yellow { background-color: #fbc02d; color: #000; }
-        #output { background: #fff; color: #000; padding: 15px; border-radius: 10px; margin-top: 20px; white-space: pre-wrap; display: none; border-left: 8px solid #2e7d32; font-size: 15px; line-height: 1.6; }
-        .copy-hint { color: #4caf50; font-weight: bold; display: none; text-align: center; margin: 15px 0; font-size: 18px; border: 2px solid #4caf50; padding: 10px; border-radius: 8px; }
+<script>
+    let currentTargetId = ''; 
 
-        /* Overlay System */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 2000; align-items: center; justify-content: center; }
-        .editor-container { background: #252525; padding: 20px; border-radius: 15px; width: 90%; max-width: 500px; border: 2px solid #444; }
-        .editor-container h4 { color: #ffeb3b; margin-top: 0; display: flex; align-items: center; gap: 8px; }
-        #expanded-text { width: 100%; height: 200px; background: #121212; color: #fff; padding: 15px; border: 1px solid #555; border-radius: 8px; font-size: 18px; resize: none; }
-        .editor-footer { display: flex; gap: 10px; margin-top: 15px; }
-        .btn-cancel { background: #555; color: white; flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
-        .btn-save { background: #2e7d32; color: white; flex: 2; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-    </style>
-</head>
+    // --- ฟังก์ชันดึงวันที่มาตรฐานไทย ---
+    function getThaiDate() {
+        const now = new Date();
+        const months = [
+            "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+            "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+        ];
+        const date = now.getDate();
+        const month = months[now.getMonth()];
+        const year = now.getFullYear() + 543; // แปลง ค.ศ. เป็น พ.ศ.
+        return `วันที่ ${date} ${month} ${year}`;
+    }
+
+    // ฟังก์ชันเปิดหน้าต่างลอยแบบระบุหัวข้อได้ (คงเดิม)
+    function openEditor(id, title) {
+        currentTargetId = id;
+        document.getElementById('editor-title').innerText = title;
+        const mainVal = document.getElementById(id).value;
+        document.getElementById('expanded-text').value = mainVal;
+        document.getElementById('editorOverlay').style.display = 'flex';
+        
+        const textarea = document.getElementById('expanded-text');
+        setTimeout(() => {
+            textarea.focus();
+            textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+        }, 100);
+    }
+
+    function closeEditor(isSave) {
+        if (isSave) {
+            const newVal = document.getElementById('expanded-text').value;
+            document.getElementById(currentTargetId).value = newVal;
+        }
+        document.getElementById('editorOverlay').style.display = 'none';
+    }
+
+    const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL";
+
+    function showHint() {
+        const hint = document.getElementById('copyHint');
+        hint.style.display = 'block';
+        setTimeout(() => { hint.style.display = 'none'; }, 2500);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    async function processAndSend(text, jsonData) {
+        const out = document.getElementById('output');
+        out.innerText = text;
+        out.style.display = 'block';
+
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+        } else {
+            let textArea = document.createElement("textarea");
+            textArea.value = text; document.body.appendChild(textArea);
+            textArea.select(); document.execCommand('copy');
+            document.body.removeChild(textArea);
+        }
+        showHint();
+        if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL") {
+            try {
+                fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(jsonData) });
+            } catch (e) { console.error(e); }
+        }
+    }
+
+    // แก้ไขฟังก์ชันรายงานเพลิงไหม้ (เพิ่มวันที่)
+    function reportFire() {
+        let cars = [];
+        for(let i=1; i<=3; i++) {
+            let val = document.getElementById('fire_car' + i).value;
+            if(val) cars.push(val);
+        }
+        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่/พิกัด: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${cars.join(', ') || '-'}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
+        processAndSend(text, { type: "เพลิงไหม้", date: getThaiDate(), staff: document.getElementById('fire_team').value, sender: document.getElementById('fire_sender').value });
+    }
+
+    // แก้ไขฟังก์ชันรายงานช่วยเหลือประชาชน (เพิ่มวันที่)
+    function reportRescue() {
+        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${document.getElementById('res_type_text').value || '-'}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่/พิกัด: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
+        processAndSend(text, { type: "ช่วยเหลือประชาชน", date: getThaiDate(), staff: document.getElementById('res_team').value, sender: document.getElementById('res_sender').value });
+    }
+</script>
 <body>
 
 <header>
