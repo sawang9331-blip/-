@@ -1,89 +1,30 @@
-<script>
-    let currentTargetId = ''; 
-
-    // --- ฟังก์ชันดึงวันที่มาตรฐานไทย ---
-    function getThaiDate() {
-        const now = new Date();
-        const months = [
-            "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-            "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
-        ];
-        const date = now.getDate();
-        const month = months[now.getMonth()];
-        const year = now.getFullYear() + 543; // แปลง ค.ศ. เป็น พ.ศ.
-        return `วันที่ ${date} ${month} ${year}`;
-    }
-
-    // ฟังก์ชันเปิดหน้าต่างลอยแบบระบุหัวข้อได้ (คงเดิม)
-    function openEditor(id, title) {
-        currentTargetId = id;
-        document.getElementById('editor-title').innerText = title;
-        const mainVal = document.getElementById(id).value;
-        document.getElementById('expanded-text').value = mainVal;
-        document.getElementById('editorOverlay').style.display = 'flex';
-        
-        const textarea = document.getElementById('expanded-text');
-        setTimeout(() => {
-            textarea.focus();
-            textarea.setSelectionRange(textarea.value.length, textarea.value.length);
-        }, 100);
-    }
-
-    function closeEditor(isSave) {
-        if (isSave) {
-            const newVal = document.getElementById('expanded-text').value;
-            document.getElementById(currentTargetId).value = newVal;
-        }
-        document.getElementById('editorOverlay').style.display = 'none';
-    }
-
-    const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL";
-
-    function showHint() {
-        const hint = document.getElementById('copyHint');
-        hint.style.display = 'block';
-        setTimeout(() => { hint.style.display = 'none'; }, 2500);
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-    async function processAndSend(text, jsonData) {
-        const out = document.getElementById('output');
-        out.innerText = text;
-        out.style.display = 'block';
-
-        if (navigator.clipboard && window.isSecureContext) {
-            await navigator.clipboard.writeText(text);
-        } else {
-            let textArea = document.createElement("textarea");
-            textArea.value = text; document.body.appendChild(textArea);
-            textArea.select(); document.execCommand('copy');
-            document.body.removeChild(textArea);
-        }
-        showHint();
-        if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL") {
-            try {
-                fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(jsonData) });
-            } catch (e) { console.error(e); }
-        }
-    }
-
-    // แก้ไขฟังก์ชันรายงานเพลิงไหม้ (เพิ่มวันที่)
-    function reportFire() {
-        let cars = [];
-        for(let i=1; i<=3; i++) {
-            let val = document.getElementById('fire_car' + i).value;
-            if(val) cars.push(val);
-        }
-        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่/พิกัด: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${cars.join(', ') || '-'}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
-        processAndSend(text, { type: "เพลิงไหม้", date: getThaiDate(), staff: document.getElementById('fire_team').value, sender: document.getElementById('fire_sender').value });
-    }
-
-    // แก้ไขฟังก์ชันรายงานช่วยเหลือประชาชน (เพิ่มวันที่)
-    function reportRescue() {
-        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${document.getElementById('res_type_text').value || '-'}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่/พิกัด: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
-        processAndSend(text, { type: "ช่วยเหลือประชาชน", date: getThaiDate(), staff: document.getElementById('res_team').value, sender: document.getElementById('res_sender').value });
-    }
-</script>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ส.ดพ.บางบอน V2.3.0</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; padding: 10px; }
+        header { text-align: center; background: #d32f2f; color: white; padding: 10px; border-radius: 8px; margin-bottom: 15px; }
+        .container { max-width: 600px; margin: auto; }
+        .form-group { background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .group-fire { border-left: 5px solid #d32f2f; }
+        .group-rescue { border-left: 5px solid #fbc02d; }
+        label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9em; }
+        input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .car-grid, .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .time-item { display: flex; flex-direction: column; }
+        .btn-submit { width: 100%; padding: 12px; margin-top: 15px; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; }
+        .btn-red { background: #d32f2f; }
+        .btn-yellow { background: #fbc02d; color: #333; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .editor-container { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; }
+        .editor-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+        #output { background: #e8f5e9; padding: 10px; border-radius: 5px; margin-top: 15px; display: none; white-space: pre-wrap; font-size: 0.85em; border: 1px solid #c8e6c9; }
+        .copy-hint { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 20px; }
+    </style>
+</head>
 <body>
 
 <header>
@@ -100,108 +41,92 @@
         <div class="car-grid">
             <select id="fire_car1"><option value="">-- รถ 1 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option><option value="บางบอน 052-1">บางบอน 052-1</option><option value="บางบอน 052-2">บางบอน 052-2</option><option value="บางบอน 053-1">บางบอน 053-1</option></select>
             <select id="fire_car2"><option value="">-- รถ 2 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option><option value="บางบอน 052-1">บางบอน 052-1</option><option value="บางบอน 052-2">บางบอน 052-2</option><option value="บางบอน 053-1">บางบอน 053-1</option></select>
-            <select id="fire_car3"><option value="">-- รถ 3 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option><option value="บางบอน 052-1">บางบอน 052-1</option><option value="บางบอน 052-2">บางบอน 052-2</option><option value="บางบอน 053-1">บางบอน 053-1</option></select>
         </div>
 
-        <div class="time-grid">
-            <div class="time-item"><label>เวลารับแจ้ง</label><input type="time" id="f_t1"></div>
-            <div class="time-item"><label>เวลาแจ้งออก</label><input type="time" id="f_t2"></div>
-            <div class="time-item"><label>เวลา ว.10</label><input type="time" id="f_t3"></div>
-            <div class="time-item"><label>เริ่มใช้น้ำ</label><input type="time" id="f_t4"></div>
+        <div class="time-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+            <div class="time-item"><label>รับแจ้ง</label><input type="time" id="f_t1"></div>
+            <div class="time-item"><label>แจ้งออก</label><input type="time" id="f_t2"></div>
+            <div class="time-item"><label>ว.10</label><input type="time" id="f_t3"></div>
+            <div class="time-item"><label>ใช้น้ำ</label><input type="time" id="f_t4"></div>
             <div class="time-item"><label>เลิก ว.10</label><input type="time" id="f_t5"></div>
-            <div class="time-item"><label>ว.4 ส.ดพ.</label><input type="time" id="f_t6"></div>
+            <div class="time-item"><label>กลับ ส.ดพ.</label><input type="time" id="f_t6"></div>
         </div>
         
         <label>👥 ผู้ออกปฏิบัติหน้าที่</label>
-        <textarea id="fire_team" rows="2" placeholder="แตะเพื่อระบุรายชื่อ..." readonly onclick="openEditor('fire_team', '👥 รายชื่อผู้ปฏิบัติหน้าที่')"></textarea>
+        <textarea id="fire_team" rows="2" placeholder="ระบุรายชื่อ..." readonly onclick="openEditor('fire_team', '👥 รายชื่อผู้ปฏิบัติหน้าที่')"></textarea>
         
         <label>📢 ผู้รายงาน</label>
-        <input type="text" id="fire_sender" placeholder="แตะเพื่อระบุผู้รายงาน" readonly onclick="openEditor('fire_sender', '📢 ผู้รายงาน (เรียกขาน)')">
+        <input type="text" id="fire_sender" placeholder="ระบุเรียกขาน" readonly onclick="openEditor('fire_sender', '📢 ผู้รายงาน')">
         
         <button class="btn-submit btn-red" onclick="reportFire()">คัดลอกและส่งรายงานเพลิงไหม้</button>
     </div>
 
     <div class="form-group group-rescue">
-        <h3>🐾 รายงานช่วยเหลือประชาชน</h3>
+        <h3>🐾 ช่วยเหลือประชาชน</h3>
         <label>🐾 ชนิดสัตว์ / เหตุที่ช่วยเหลือ</label>
-        <input type="text" id="res_type_text" placeholder="เช่น งูเหลือม, กำจัดรังต่อ" readonly onclick="openEditor('res_type_text', '🐾 ชนิดสัตว์ / เหตุเหตุ')">
+        <input type="text" id="res_type_text" placeholder="เช่น งูเหลือม" readonly onclick="openEditor('res_type_text', '🐾 ชนิดสัตว์')">
         
         <label>📏 ขนาด/จำนวน</label>
-        <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร, 1 ตัว" readonly onclick="openEditor('res_len_text', '📏 ขนาด/จำนวน')">
+        <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร" readonly onclick="openEditor('res_len_text', '📏 ขนาด')">
         
         <label>📍 สถานที่ / พิกัด</label>
-        <input type="text" id="res_place" placeholder="แตะเพื่อระบุสถานที่" readonly onclick="openEditor('res_place', '📍 สถานที่เกิดเหตุ')">
+        <input type="text" id="res_place" placeholder="ระบุสถานที่" readonly onclick="openEditor('res_place', '📍 สถานที่')">
         
         <label>🚒 รถที่ออกเหตุ</label>
-        <select id="res_car_single"><option value="">-- เลือกคันรถ --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option><option value="บางบอน 052-1">บางบอน 052-1</option><option value="บางบอน 052-2">บางบอน 052-2</option><option value="บางบอน 053-1">บางบอน 053-1</option></select>
+        <select id="res_car_single"><option value="">-- เลือกคันรถ --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option><option value="บางบอน 052-1">บางบอน 052-1</option></select>
 
         <div class="time-grid">
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="r_t1"></div>
             <div class="time-item"><label>แจ้งออก</label><input type="time" id="r_t2"></div>
             <div class="time-item"><label>ว.10</label><input type="time" id="r_t3"></div>
             <div class="time-item"><label>เลิก ว.10</label><input type="time" id="r_t4"></div>
-            <div class="time-item"><label>ว.4 ส.ดพ.</label><input type="time" id="r_t5"></div>
         </div>
 
         <label>👥 รายชื่อเจ้าหน้าที่</label>
-        <textarea id="res_team" rows="2" placeholder="แตะเพื่อระบุรายชื่อ..." readonly onclick="openEditor('res_team', '👥 รายชื่อเจ้าหน้าที่')"></textarea>
+        <textarea id="res_team" rows="2" placeholder="ระบุรายชื่อ..." readonly onclick="openEditor('res_team', '👥 รายชื่อเจ้าหน้าที่')"></textarea>
         
         <label>📢 ผู้รายงาน</label>
-        <input type="text" id="res_sender" placeholder="แตะเพื่อระบุผู้รายงาน" readonly onclick="openEditor('res_sender', '📢 ผู้รายงาน')">
+        <input type="text" id="res_sender" placeholder="ระบุเรียกขาน" readonly onclick="openEditor('res_sender', '📢 ผู้รายงาน')">
         
         <button class="btn-submit btn-yellow" onclick="reportRescue()">คัดลอกและส่งรายงานการช่วยเหลือ</button>
     </div>
 
-    <div id="copyHint" class="copy-hint">✅ คัดลอกและบันทึกข้อมูลแล้ว!</div>
+    <div id="copyHint" class="copy-hint">✅ คัดลอกแล้ว!</div>
     <div id="output"></div>
 </div>
 
 <div id="editorOverlay" class="overlay">
     <div class="editor-container">
         <h4 id="editor-title">📝 แก้ไขข้อมูล</h4>
-        <textarea id="expanded-text" placeholder="พิมพ์ข้อมูลที่นี่..."></textarea>
+        <textarea id="expanded-text" rows="5"></textarea>
         <div class="editor-footer">
-            <button class="btn-cancel" onclick="closeEditor(false)">ยกเลิก</button>
-            <button class="btn-save" onclick="closeEditor(true)">ตกลง</button>
+            <button onclick="closeEditor(false)">ยกเลิก</button>
+            <button style="background: #2e7d32; color: white; border: none; padding: 5px 15px; border-radius: 4px;" onclick="closeEditor(true)">ตกลง</button>
         </div>
     </div>
 </div>
 
 <script>
     let currentTargetId = ''; 
+    const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL";
 
-    // ฟังก์ชันเปิดหน้าต่างลอยแบบระบุหัวข้อได้
+    function getThaiDate() {
+        const now = new Date();
+        const months = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+        return `วันที่ ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear() + 543}`;
+    }
+
     function openEditor(id, title) {
         currentTargetId = id;
         document.getElementById('editor-title').innerText = title;
-        const mainVal = document.getElementById(id).value;
-        document.getElementById('expanded-text').value = mainVal;
+        document.getElementById('expanded-text').value = document.getElementById(id).value;
         document.getElementById('editorOverlay').style.display = 'flex';
-        
-        // เลื่อน cursor ไปท้ายสุด
-        const textarea = document.getElementById('expanded-text');
-        setTimeout(() => {
-            textarea.focus();
-            textarea.setSelectionRange(textarea.value.length, textarea.value.length);
-        }, 100);
+        setTimeout(() => { document.getElementById('expanded-text').focus(); }, 100);
     }
 
     function closeEditor(isSave) {
-        if (isSave) {
-            const newVal = document.getElementById('expanded-text').value;
-            document.getElementById(currentTargetId).value = newVal;
-        }
+        if (isSave) document.getElementById(currentTargetId).value = document.getElementById('expanded-text').value;
         document.getElementById('editorOverlay').style.display = 'none';
-    }
-
-    // ส่วนประมวลผลรายงาน (เหมือนเดิม)
-    const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL";
-
-    function showHint() {
-        const hint = document.getElementById('copyHint');
-        hint.style.display = 'block';
-        setTimeout(() => { hint.style.display = 'none'; }, 2500);
-        window.scrollTo(0, document.body.scrollHeight);
     }
 
     async function processAndSend(text, jsonData) {
@@ -209,38 +134,31 @@
         out.innerText = text;
         out.style.display = 'block';
 
-        if (navigator.clipboard && window.isSecureContext) {
+        try {
             await navigator.clipboard.writeText(text);
-        } else {
-            let textArea = document.createElement("textarea");
-            textArea.value = text; document.body.appendChild(textArea);
-            textArea.select(); document.execCommand('copy');
-            document.body.removeChild(textArea);
-        }
-        showHint();
+            const hint = document.getElementById('copyHint');
+            hint.style.display = 'block';
+            setTimeout(() => { hint.style.display = 'none'; }, 2000);
+        } catch (err) { console.error('Copy failed', err); }
+
         if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL") {
-            try {
-                fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(jsonData) });
-            } catch (e) { console.error(e); }
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(jsonData) });
         }
     }
 
     function reportFire() {
-        let cars = [];
-        for(let i=1; i<=3; i++) {
-            let val = document.getElementById('fire_car' + i).value;
-            if(val) cars.push(val);
-        }
-        const text = `ส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่/พิกัด: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${cars.join(', ') || '-'}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
-        processAndSend(text, { type: "เพลิงไหม้", staff: document.getElementById('fire_team').value, sender: document.getElementById('fire_sender').value });
+        let cars = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value].filter(v => v);
+        // เพิ่ม getThaiDate() ไว้ที่บรรทัดแรกสุด
+        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${cars.join(', ') || '-'}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
+        processAndSend(text, { type: "เพลิงไหม้", date: getThaiDate() });
     }
 
     function reportRescue() {
-        const text = `ส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${document.getElementById('res_type_text').value || '-'}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่/พิกัด: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
-        processAndSend(text, { type: "ช่วยเหลือประชาชน", staff: document.getElementById('res_team').value, sender: document.getElementById('res_sender').value });
+        // เพิ่ม getThaiDate() ไว้ที่บรรทัดแรกสุด
+        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${document.getElementById('res_type_text').value || '-'}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
+        processAndSend(text, { type: "ช่วยเหลือประชาชน", date: getThaiDate() });
     }
 </script>
 
 </body>
 </html>
-
