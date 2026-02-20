@@ -80,7 +80,6 @@
     <option value="เหตุอื่นๆ">🛠️ เหตุอื่นๆ (ระบุเพิ่ม)</option>
 </select>
 
-<input type="text" id="res_type_other" placeholder="ระบุรายละเอียดเพิ่มเติม..." style="display:none; margin-top:5px;" onclick="openEditor('res_type_other', '🛠️ ระบุรายละเอียดเพิ่มเติม')">
         <label>📏 ขนาด/จำนวน</label>
         <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร / 1 ตัว" readonly onclick="openEditor('res_len_text', '📏 ขนาด')">
         
@@ -128,7 +127,7 @@
 <script>
     let currentTargetId = ''; 
     // ใส่ URL จาก Google Apps Script ที่ได้จากการ Deploy ใหม่ล่าสุดที่นี่
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhevkBrrE97K4php68T9mJmB7Wtmgud2QhmpdwZINsLL3nSXrr07FedvGqAkJy7MLXuw/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVGNNJP96W8z76rwQu_q7B80vAjuHDOH4SgpWLLUITQkoCnoRRZJDIU-OH1Y8f3VAZWQ/exec";
 
     function getThaiDate() {
         const now = new Date();
