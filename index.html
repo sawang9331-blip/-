@@ -67,18 +67,25 @@
     </div>
 
     <div class="form-group group-rescue">
-        <h3>🐾 ช่วยเหลือประชาชน</h3>
-        <label>🐾 ชนิดสัตว์ / เหตุที่ช่วยเหลือ</label>
-<select id="res_type_text" onchange="toggleOtherInput()">
-    <option value="งูเหลือม">🐍 งูเหลือม</option>
-    <option value="งูเห่า">🐍 งูเห่า</option>
-    <option value="งูทางมะพร้าว">🐍 งูทางมะพร้าว</option>
-    <option value="ตัวเงินตัวทอง">🦎 ตัวเงินตัวทอง</option>
-    <option value="กำจัดรังต่อ">🐝 กำจัดรังต่อ</option>
-    <option value="กำจัดรังแตน">🐝 กำจัดรังแตน</option>
-    <option value="กำจัดรังผึ้ง">🐝 กำจัดรังผึ้ง</option>
-    <option value="เหตุอื่นๆ">🛠️ เหตุอื่นๆ (ระบุเพิ่ม)</option>
-</select>
+    <h3>🐾 ช่วยเหลือประชาชน</h3>
+    
+    <label>🐾 ชนิดสัตว์ / เหตุที่ช่วยเหลือ</label>
+    <select id="res_type_text" onchange="toggleOtherInput()" style="width: 100%; padding: 10px; border-radius: 6px; background: #3d3d3d; color: white; border: 1px solid #555;">
+        <option value="งูเหลือม">🐍 งูเหลือม</option>
+        <option value="งูเห่า">🐍 งูเห่า</option>
+        <option value="งูทางมะพร้าว">🐍 งูทางมะพร้าว</option>
+        <option value="ตัวเงินตัวทอง">🦎 ตัวเงินตัวทอง</option>
+        <option value="กำจัดรังต่อ">🐝 กำจัดรังต่อ</option>
+        <option value="กำจัดรังแตน">🐝 กำจัดรังแตน</option>
+        <option value="กำจัดรังผึ้ง">🐝 กำจัดรังผึ้ง</option>
+        <option value="เหตุอื่นๆ">🛠️ เหตุอื่นๆ (ระบุเพิ่ม)</option>
+    </select>
+
+    <input type="text" id="res_type_other" placeholder="โปรดระบุรายละเอียดเพิ่มเติม..." 
+           style="display:none; margin-top:10px;" 
+           readonly onclick="openEditor('res_type_other', '🛠️ ระบุเหตุอื่นๆ')">
+    
+    </div>
 
         <label>📏 ขนาด/จำนวน</label>
         <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร / 1 ตัว" readonly onclick="openEditor('res_len_text', '📏 ขนาด')">
