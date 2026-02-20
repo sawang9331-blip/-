@@ -67,25 +67,23 @@
     </div>
 
     <div class="form-group group-rescue">
-    <h3>🐾 ช่วยเหลือประชาชน</h3>
-    
-    <label>🐾 ชนิดสัตว์ / เหตุที่ช่วยเหลือ</label>
-    <select id="res_type_text" onchange="toggleOtherInput()" style="width: 100%; padding: 10px; border-radius: 6px; background: #3d3d3d; color: white; border: 1px solid #555;">
-        <option value="งูเหลือม">🐍 งูเหลือม</option>
-        <option value="งูเห่า">🐍 งูเห่า</option>
-        <option value="งูทางมะพร้าว">🐍 งูทางมะพร้าว</option>
-        <option value="ตัวเงินตัวทอง">🦎 ตัวเงินตัวทอง</option>
-        <option value="กำจัดรังต่อ">🐝 กำจัดรังต่อ</option>
-        <option value="กำจัดรังแตน">🐝 กำจัดรังแตน</option>
-        <option value="กำจัดรังผึ้ง">🐝 กำจัดรังผึ้ง</option>
-        <option value="เหตุอื่นๆ">🛠️ เหตุอื่นๆ (ระบุเพิ่ม)</option>
-    </select>
+        <h3>🐾 ช่วยเหลือประชาชน</h3>
+        
+        <label>🐾 ชนิดสัตว์ / เหตุที่ช่วยเหลือ</label>
+        <select id="res_type_text" onchange="toggleOtherInput()">
+            <option value="งูเหลือม">🐍 งูเหลือม</option>
+            <option value="งูเห่า">🐍 งูเห่า</option>
+            <option value="งูทางมะพร้าว">🐍 งูทางมะพร้าว</option>
+            <option value="ตัวเงินตัวทอง">🦎 ตัวเงินตัวทอง</option>
+            <option value="กำจัดรังต่อ">🐝 กำจัดรังต่อ</option>
+            <option value="กำจัดรังแตน">🐝 กำจัดรังแตน</option>
+            <option value="กำจัดรังผึ้ง">🐝 กำจัดรังผึ้ง</option>
+            <option value="เหตุอื่นๆ">🛠️ เหตุอื่นๆ (ระบุเพิ่ม)</option>
+        </select>
 
-    <input type="text" id="res_type_other" placeholder="โปรดระบุรายละเอียดเพิ่มเติม..." 
-           style="display:none; margin-top:10px;" 
-           readonly onclick="openEditor('res_type_other', '🛠️ ระบุเหตุอื่นๆ')">
-    
-    </div>
+        <input type="text" id="res_type_other" placeholder="โปรดระบุรายละเอียดเพิ่มเติม..." 
+               style="display:none; margin-top:10px;" 
+               readonly onclick="openEditor('res_type_other', '🛠️ ระบุเหตุอื่นๆ')">
 
         <label>📏 ขนาด/จำนวน</label>
         <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร / 1 ตัว" readonly onclick="openEditor('res_len_text', '📏 ขนาด')">
@@ -133,13 +131,19 @@
 
 <script>
     let currentTargetId = ''; 
-    // ใส่ URL จาก Google Apps Script ที่ได้จากการ Deploy ใหม่ล่าสุดที่นี่
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVGNNJP96W8z76rwQu_q7B80vAjuHDOH4SgpWLLUITQkoCnoRRZJDIU-OH1Y8f3VAZWQ/exec";
 
     function getThaiDate() {
         const now = new Date();
         const months = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
         return `วันที่ ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear() + 543}`;
+    }
+
+    // ฟังก์ชันเปิด/ปิดช่องกรอกเหตุอื่นๆ
+    function toggleOtherInput() {
+        const select = document.getElementById('res_type_text');
+        const otherInput = document.getElementById('res_type_other');
+        otherInput.style.display = (select.value === 'เหตุอื่นๆ') ? 'block' : 'none';
     }
 
     function openEditor(id, title) {
@@ -185,7 +189,7 @@
     }
 
     function reportFire() {
-        let cars = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value].filter(v => v);
+        let cars = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value, document.getElementById('fire_car3').value].filter(v => v);
         const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${cars.join(', ') || '-'}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
         
         processAndSend(text, { 
@@ -198,10 +202,16 @@
     }
 
     function reportRescue() {
-        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${document.getElementById('res_type_text').value || '-'}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
+        // ดึงค่าชนิดสัตว์ (ถ้าเลือกเหตุอื่นๆ ให้เอาค่าจากช่องพิมพ์)
+        let animalType = document.getElementById('res_type_text').value;
+        if(animalType === 'เหตุอื่นๆ') {
+            animalType = document.getElementById('res_type_other').value || 'เหตุอื่นๆ';
+        }
+
+        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${animalType}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${document.getElementById('res_car_single').value || '-'}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
         
         processAndSend(text, { 
-            type: "ช่วยเหลือประชาชน", 
+            type: `ช่วยเหลือประชาชน (${animalType})`, 
             date: getThaiDate(),
             place: document.getElementById('res_place').value || '-',
             staff: document.getElementById('res_team').value || '-',
