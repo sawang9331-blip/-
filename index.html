@@ -131,7 +131,7 @@
 
 <script>
     let currentTargetId = ''; 
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjz8fx46Lk6gd67pLyb6Fh_8Cz-XZrGXYveRoNL3vT9W8AXKff4nvZLu8cER0uNG9hYA/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBYDftScyGdMuU2gRQ_vbm-Qc1HkrxGJ5U3-t8S2fF9_p54d7CorhUevX5ebORViSdkQ/exec";
 
     function getThaiDate() {
         const now = new Date();
@@ -188,7 +188,7 @@
         }
     }
 
-    function reportFire() {
+   function reportFire() {
     let cars = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value, document.getElementById('fire_car3').value].filter(v => v);
     const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${cars.join(', ') || '-'}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
     
@@ -198,10 +198,10 @@
         place: document.getElementById('fire_place').value || '-',
         staff: document.getElementById('fire_team').value || '-',
         sender: document.getElementById('fire_sender').value || '-',
-        t1: document.getElementById('f_t1').value,
-        t2: document.getElementById('f_t2').value,
-        t3: document.getElementById('f_t3').value,
-        t4: document.getElementById('f_t4').value, // ใช้น้ำ
+        t1: document.getElementById('f_t1').value, // รับแจ้ง
+        t2: document.getElementById('f_t2').value, // แจ้งออก
+        t3: document.getElementById('f_t3').value, // ว.10
+        t4: document.getElementById('f_t4').value, // เริ่มใช้น้ำ
         t5: document.getElementById('f_t6').value  // กลับ ส.ดพ.
     });
 }
@@ -220,9 +220,9 @@
         place: document.getElementById('res_place').value || '-',
         staff: document.getElementById('res_team').value || '-',
         sender: document.getElementById('res_sender').value || '-',
-        t1: document.getElementById('r_t1').value,
-        t2: document.getElementById('r_t2').value,
-        t3: document.getElementById('r_t3').value,
+        t1: document.getElementById('r_t1').value, // รับแจ้ง
+        t2: document.getElementById('r_t2').value, // แจ้งออก
+        t3: document.getElementById('r_t3').value, // ว.10
         t4: document.getElementById('r_t4').value, // เลิก ว.10
         t5: document.getElementById('r_t5').value  // ว.4 ส.ดพ.
     });
