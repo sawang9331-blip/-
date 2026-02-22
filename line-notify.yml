@@ -1,0 +1,20 @@
+name: Send Line Report
+on: [push] # เมื่อมีการอัปโหลดไฟล์ (Push) ข้อมูลจะเด้งเข้า LINE ทันที
+
+jobs:
+  send-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Report to LINE
+        run: |
+          curl -X POST https://api.line.me/v2/bot/message/broadcast \
+          -H 'Content-Type: application/json' \
+          -H 'Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}' \
+          -d '{
+            "messages": [
+              {
+                "type": "text",
+                "text": "📢 รายงาน ว.8 บางบอน\nมีการอัปเดตข้อมูลใหม่ใน GitHub เรียบร้อยแล้วครับ!"
+              }
+            ]
+          }'
