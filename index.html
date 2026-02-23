@@ -55,9 +55,8 @@
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="f_t1"></div>
             <div class="time-item"><label>แจ้งออก</label><input type="time" id="f_t2"></div>
             <div class="time-item"><label>ว.10</label><input type="time" id="f_t3"></div>
-            <div class="time-item"><label>ใช้น้ำ</label><input type="time" id="f_t4"></div>
-            <div class="time-item"><label>เลิก ว.10</label><input type="time" id="f_t5"></div>
-            <div class="time-item"><label>กลับ ส.ดพ.</label><input type="time" id="f_t6"></div>
+            <div class="time-item"><label>เลิก ว.10</label><input type="time" id="f_t4"></div>
+            <div class="time-item"><label>ว.4 ส.ดพ.</label><input type="time" id="f_t5"></div>
         </div>
         
         <label>👥 ผู้ออกปฏิบัติหน้าที่</label>
@@ -119,7 +118,7 @@
     </div>
 </div>
 
-<div id="copyHint" class="copy-hint">คัดลอกลง Clipboard และบันทึกเรียบร้อย!</div>
+<div id="copyHint" class="copy-hint">คัดลอกและบันทึกเรียบร้อย!</div>
 
 <div id="editorOverlay" class="overlay">
     <div class="editor-container">
@@ -134,8 +133,8 @@
 
 <script>
     let currentTargetId = ''; 
-    // แก้ไข URL เป็น Web App URL ล่าสุดของคุณที่นี่
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCr0syuFQSFckbTdqEKruiaurTCDfiZKTDY1OvVSDxE0PHUKDUBzfQEYcflbBFT3fh0w/exec";
+    // ตรวจสอบ Web App URL ให้ถูกต้อง
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwsUrCiDAjm4d765ROgf3HQSVnhgWDqKl7HHR-1EnB3v7Dc6tpVuAnavOLq3Qf5sPJDGQ/exec";
 
     function getThaiDate() {
         const now = new Date();
@@ -167,18 +166,14 @@
         const outDisplay = document.getElementById('output');
         outDisplay.innerText = text;
         outSection.style.display = 'block';
-        outSection.scrollIntoView({ behavior: 'smooth' });
 
         try {
             await navigator.clipboard.writeText(text);
             const hint = document.getElementById('copyHint');
             hint.style.display = 'block';
-            setTimeout(() => { hint.style.display = 'none'; }, 2500);
+            setTimeout(() => { hint.style.display = 'none'; }, 2000);
         } catch (err) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text; document.body.appendChild(textArea);
-            textArea.select(); document.execCommand('copy');
-            document.body.removeChild(textArea);
+            console.log("Clipboard Error");
         }
 
         if (GOOGLE_SCRIPT_URL !== "") {
@@ -191,59 +186,61 @@
         }
     }
 
-function reportFire() {
-    let cars = [
-        document.getElementById('fire_car1').value,
-        document.getElementById('fire_car2').value,
-        document.getElementById('fire_car3').value
-    ].filter(v => v);
+    function reportFire() {
+        let cars = [
+            document.getElementById('fire_car1').value,
+            document.getElementById('fire_car2').value,
+            document.getElementById('fire_car3').value
+        ].filter(v => v);
 
-    const carList = cars.join(', ') || '-';
-    // แก้ไขเครื่องหมายปิดข้อความให้ถูกต้อง
-    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${document.getElementById('fire_place').value}\nรถที่ออกเหตุ: ${carList}`;
+        const carList = cars.join(', ') || '-';
+        const place = document.getElementById('fire_place').value || '-';
+        const sender = document.getElementById('fire_sender').value || '-';
 
-    processAndSend(text, { 
-        type: "เพลิงไหม้", 
-        date: getThaiDate(),
-        place: document.getElementById('fire_place').value || '-',
-        staff: document.getElementById('fire_team').value || '-',
-        sender: document.getElementById('fire_sender').value || '-',
-        t1: document.getElementById('f_t1').value,
-        t2: document.getElementById('f_t2').value,
-        t3: document.getElementById('f_t3').value,
-        t4: document.getElementById('f_t4').value,
-        t5: document.getElementById('f_t5').value,
-        t6: document.getElementById('f_t6').value,
-        car: carList
-    });
-}
+        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${place}\nรถที่ออกเหตุ: ${carList}\nผู้รายงาน: ${sender}`;
 
-function reportRescue() {
-    let animalType = document.getElementById('res_type_text').value;
-    if(animalType === 'เหตุอื่นๆ') {
-        animalType = document.getElementById('res_type_other').value || 'เหตุอื่นๆ';
+        processAndSend(text, { 
+            type: "เพลิงไหม้", 
+            date: getThaiDate(),
+            place: place,
+            staff: document.getElementById('fire_team').value || '-',
+            sender: sender,
+            t1: document.getElementById('f_t1').value,
+            t2: document.getElementById('f_t2').value,
+            t3: document.getElementById('f_t3').value,
+            t4: document.getElementById('f_t4').value,
+            t5: document.getElementById('f_t5').value,
+            car: carList
+        });
     }
-    const carName = document.getElementById('res_car_single').value || '-';
-    const animalSize = document.getElementById('res_len_text').value || '-';
 
-    // แก้ไขการดึงชื่อเหตุและขนาดให้แสดงผลในข้อความก๊อปปี้
-    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animalType})\nขนาด: ${animalSize}\nสถานที่: ${document.getElementById('res_place').value}`;
+    function reportRescue() {
+        let animalType = document.getElementById('res_type_text').value;
+        if(animalType === 'เหตุอื่นๆ') {
+            animalType = document.getElementById('res_type_other').value || 'เหตุอื่นๆ';
+        }
+        const carName = document.getElementById('res_car_single').value || '-';
+        const animalSize = document.getElementById('res_len_text').value || '-';
+        const place = document.getElementById('res_place').value || '-';
+        const sender = document.getElementById('res_sender').value || '-';
 
-    processAndSend(text, { 
-        type: `ช่วยเหลือประชาชน (${animalType})`, 
-        date: getThaiDate(),
-        place: document.getElementById('res_place').value || '-',
-        len: animalSize,
-        staff: document.getElementById('res_team').value || '-',
-        sender: document.getElementById('res_sender').value || '-',
-        t1: document.getElementById('r_t1').value,
-        t2: document.getElementById('r_t2').value,
-        t3: document.getElementById('r_t3').value,
-        t4: document.getElementById('r_t4').value,
-        t5: document.getElementById('r_t5').value,
-        car: carName 
-    });
-}
+        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animalType})\nขนาด: ${animalSize}\nสถานที่: ${place}\nผู้รายงาน: ${sender}`;
+
+        processAndSend(text, { 
+            type: `ช่วยเหลือประชาชน (${animalType})`, 
+            date: getThaiDate(),
+            place: place,
+            len: animalSize,
+            staff: document.getElementById('res_team').value || '-',
+            sender: sender,
+            t1: document.getElementById('r_t1').value,
+            t2: document.getElementById('r_t2').value,
+            t3: document.getElementById('r_t3').value,
+            t4: document.getElementById('r_t4').value,
+            t5: document.getElementById('r_t5').value,
+            car: carName 
+        });
+    }
 </script>
 
 </body>
