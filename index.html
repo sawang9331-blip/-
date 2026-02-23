@@ -191,16 +191,17 @@
         }
     }
 
-   function reportFire() {
+function reportFire() {
     let cars = [
-        document.getElementById('fire_car1').value, 
-        document.getElementById('fire_car2').value, 
+        document.getElementById('fire_car1').value,
+        document.getElementById('fire_car2').value,
         document.getElementById('fire_car3').value
     ].filter(v => v);
-    
+
     const carList = cars.join(', ') || '-';
-    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${carList}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
-    
+    // แก้ไขเครื่องหมายปิดข้อความให้ถูกต้อง
+    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${document.getElementById('fire_place').value}\nรถที่ออกเหตุ: ${carList}`;
+
     processAndSend(text, { 
         type: "เพลิงไหม้", 
         date: getThaiDate(),
@@ -225,13 +226,14 @@ function reportRescue() {
     const carName = document.getElementById('res_car_single').value || '-';
     const animalSize = document.getElementById('res_len_text').value || '-';
 
-    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${animalType}\nขนาด/จำนวน: ${animalSize}\nสถานที่: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${carName}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
-    
+    // แก้ไขการดึงชื่อเหตุและขนาดให้แสดงผลในข้อความก๊อปปี้
+    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animalType})\nขนาด: ${animalSize}\nสถานที่: ${document.getElementById('res_place').value}`;
+
     processAndSend(text, { 
         type: `ช่วยเหลือประชาชน (${animalType})`, 
         date: getThaiDate(),
         place: document.getElementById('res_place').value || '-',
-        len: animalSize, // <--- ส่งขนาดไปที่ LINE ด้วย
+        len: animalSize,
         staff: document.getElementById('res_team').value || '-',
         sender: document.getElementById('res_sender').value || '-',
         t1: document.getElementById('r_t1').value,
