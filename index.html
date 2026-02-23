@@ -4,10 +4,9 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     <meta name="theme-color" content="#000000">
-    ```
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ส.ดพ.บางบอน V2.3.0 (Official)</title>
+    <title>ส.ดพ.บางบอน V2.3.1 (Official)</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1a1a1a; color: #e0e0e0; padding: 10px; margin: 0; }
         header { text-align: center; background: #b71c1c; color: white; padding: 15px; border-radius: 0 0 15px 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
@@ -36,7 +35,7 @@
 <body>
 
 <header>
-    <h2>🚒 ส.ดพ.บางบอน (V2.3.0)</h2>
+    <h2>🚒 ส.ดพ.บางบอน (V2.3.1)</h2>
 </header>
 
 <div class="container">
@@ -135,7 +134,8 @@
 
 <script>
     let currentTargetId = ''; 
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQC3HeKjajYBDBT9HxCE8_qtIjksAcJ7RYb2hfxNQYwDa5o_ViUgcPFht52P__JGL5Zg/exec";
+    // แก้ไข URL เป็น Web App URL ล่าสุดของคุณที่นี่
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqOfk_xLt4C-b3gpRcy1Ru4HyF_oM-E-WVpOeBYe5jFMWJCroUXOBnGCCNGuxWiPctXg/exec";
 
     function getThaiDate() {
         const now = new Date();
@@ -143,7 +143,6 @@
         return `วันที่ ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear() + 543}`;
     }
 
-    // ฟังก์ชันเปิด/ปิดช่องกรอกเหตุอื่นๆ
     function toggleOtherInput() {
         const select = document.getElementById('res_type_text');
         const otherInput = document.getElementById('res_type_other');
@@ -199,7 +198,7 @@
         document.getElementById('fire_car3').value
     ].filter(v => v);
     
-    const carList = cars.join(', ') || '-'; // รวบรวมรายชื่อรถ
+    const carList = cars.join(', ') || '-';
     const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${document.getElementById('fire_place').value || '-'}\nรถที่ออกเหตุ: ${carList}\nเวลารับแจ้ง: ${document.getElementById('f_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('f_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('f_t3').value || '--:--'} น.\nเริ่มใช้น้ำ: ${document.getElementById('f_t4').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('f_t5').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('f_t6').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('fire_team').value || '-'}\nผู้รายงาน: ${document.getElementById('fire_sender').value || '-'}`;
     
     processAndSend(text, { 
@@ -212,23 +211,27 @@
         t2: document.getElementById('f_t2').value,
         t3: document.getElementById('f_t3').value,
         t4: document.getElementById('f_t4').value,
-        t5: document.getElementById('f_t6').value,
-        car: carList // ส่งรายชื่อรถไปที่คอลัมน์ L
+        t5: document.getElementById('f_t5').value,
+        t6: document.getElementById('f_t6').value,
+        car: carList
     });
 }
-  function reportRescue() {
+
+function reportRescue() {
     let animalType = document.getElementById('res_type_text').value;
     if(animalType === 'เหตุอื่นๆ') {
         animalType = document.getElementById('res_type_other').value || 'เหตุอื่นๆ';
     }
     const carName = document.getElementById('res_car_single').value || '-';
+    const animalSize = document.getElementById('res_len_text').value || '-';
 
-    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${animalType}\nขนาด/จำนวน: ${document.getElementById('res_len_text').value || '-'}\nสถานที่: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${carName}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
+    const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 เหตุช่วยเหลือประชาชน\nชนิด: ${animalType}\nขนาด/จำนวน: ${animalSize}\nสถานที่: ${document.getElementById('res_place').value || '-'}\nรถที่ออกเหตุ: ${carName}\nเวลารับแจ้ง: ${document.getElementById('r_t1').value || '--:--'} น.\nเวลาแจ้งออก: ${document.getElementById('r_t2').value || '--:--'} น.\nเวลา ว.10: ${document.getElementById('r_t3').value || '--:--'} น.\nเลิก ว.10: ${document.getElementById('r_t4').value || '--:--'} น.\nว.4 ส.ดพ.: ${document.getElementById('r_t5').value || '--:--'} น.\nผู้ปฏิบัติ: ${document.getElementById('res_team').value || '-'}\nผู้รายงาน: ${document.getElementById('res_sender').value || '-'}`;
     
     processAndSend(text, { 
         type: `ช่วยเหลือประชาชน (${animalType})`, 
         date: getThaiDate(),
         place: document.getElementById('res_place').value || '-',
+        len: animalSize, // <--- ส่งขนาดไปที่ LINE ด้วย
         staff: document.getElementById('res_team').value || '-',
         sender: document.getElementById('res_sender').value || '-',
         t1: document.getElementById('r_t1').value,
@@ -236,10 +239,10 @@
         t3: document.getElementById('r_t3').value,
         t4: document.getElementById('r_t4').value,
         t5: document.getElementById('r_t5').value,
-        car: carName // ส่งชื่อรถไปที่คอลัมน์ L
+        car: carName 
     });
 }
 </script>
 
 </body>
-</html> 
+</html>
