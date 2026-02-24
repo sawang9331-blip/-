@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ส.ดพ.บางบอน V2.3.1 (Official)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1a1a1a; color: #e0e0e0; padding: 10px; margin: 0; }
         header { text-align: center; background: #b71c1c; color: white; padding: 15px; border-radius: 0 0 15px 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
@@ -39,6 +40,7 @@
 </header>
 
 <div class="container">
+    <!-- รายงานเหตุเพลิงไหม้ -->
     <div class="form-group group-fire">
         <h3>🔥 รายงานเหตุเพลิงไหม้</h3>
         <label>📍 สถานที่เกิดเหตุ / พิกัด</label>
@@ -68,6 +70,7 @@
         <button class="btn-submit btn-red" onclick="reportFire()">คัดลอกและส่งรายงานเพลิงไหม้</button>
     </div>
 
+    <!-- รายงานช่วยเหลือประชาชน -->
     <div class="form-group group-rescue">
         <h3>🐾 ช่วยเหลือประชาชน</h3>
         
@@ -133,7 +136,6 @@
 
 <script>
     let currentTargetId = ''; 
-    // ตรวจสอบ Web App URL ให้ถูกต้อง
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqr4Yx-oQDdT8SoihiscI9S5MfMOjPN2ohqQCe7qVTsx0gLubn-Xattd8BTUxZlMiu9Q/exec";
 
     function getThaiDate() {
@@ -168,12 +170,19 @@
         outSection.style.display = 'block';
 
         try {
-            await navigator.clipboard.writeText(text);
+            // ใช้ fallback สำหรับการก๊อปปี้แบบดั้งเดิมเพื่อให้รองรับทุกอุปกรณ์
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+
             const hint = document.getElementById('copyHint');
             hint.style.display = 'block';
             setTimeout(() => { hint.style.display = 'none'; }, 2000);
         } catch (err) {
-            console.log("Clipboard Error");
+            console.log("Clipboard Error", err);
         }
 
         if (GOOGLE_SCRIPT_URL !== "") {
@@ -196,20 +205,33 @@
         const carList = cars.join(', ') || '-';
         const place = document.getElementById('fire_place').value || '-';
         const sender = document.getElementById('fire_sender').value || '-';
+        const team = document.getElementById('fire_team').value || '-';
 
-        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\nสถานที่: ${place}\nรถที่ออกเหตุ: ${carList}\nผู้รายงาน: ${sender}`;
+        // ดึงค่าเวลามาใส่ในรายงาน (แก้ไขตรงนี้)
+        const t1 = document.getElementById('f_t1').value || '-';
+        const t2 = document.getElementById('f_t2').value || '-';
+        const t3 = document.getElementById('f_t3').value || '-';
+        const t4 = document.getElementById('f_t4').value || '-';
+        const t5 = document.getElementById('f_t5').value || '-';
+
+        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\n` +
+                     `สถานที่: ${place}\n` +
+                     `รับแจ้ง เวลา: ${t1} น\n` +
+                     `เวลาออก ว.10: ${t2} น\n` +
+                     `เวลา ว.10: ${t3} น\n` +
+                     `เวลาเลิก ว.10: ${t4} น\n` +
+                     `เวลา ว.10 ส.ดพ.: ${t5} น\n` +
+                     `รถที่ออกเหตุ: ${carList}\n` +
+                     `ผู้ปฏิบัติงาน: ${team}\n` +
+                     `ผู้รายงาน: ${sender}`;
 
         processAndSend(text, { 
             type: "เพลิงไหม้", 
             date: getThaiDate(),
             place: place,
-            staff: document.getElementById('fire_team').value || '-',
+            staff: team,
             sender: sender,
-            t1: document.getElementById('f_t1').value,
-            t2: document.getElementById('f_t2').value,
-            t3: document.getElementById('f_t3').value,
-            t4: document.getElementById('f_t4').value,
-            t5: document.getElementById('f_t5').value,
+            t1: t1, t2: t2, t3: t3, t4: t4, t5: t5,
             car: carList
         });
     }
@@ -223,21 +245,35 @@
         const animalSize = document.getElementById('res_len_text').value || '-';
         const place = document.getElementById('res_place').value || '-';
         const sender = document.getElementById('res_sender').value || '-';
+        const team = document.getElementById('res_team').value || '-';
 
-        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animalType})\nขนาด: ${animalSize}\nสถานที่: ${place}\nผู้รายงาน: ${sender}`;
+        // ดึงค่าเวลามาใส่ในรายงาน (แก้ไขตรงนี้)
+        const t1 = document.getElementById('r_t1').value || '-';
+        const t2 = document.getElementById('r_t2').value || '-';
+        const t3 = document.getElementById('r_t3').value || '-';
+        const t4 = document.getElementById('r_t4').value || '-';
+        const t5 = document.getElementById('r_t5').value || '-';
+
+        const text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animalType})\n` +
+                     `ขนาด: ${animalSize}\n` +
+                     `สถานที่: ${place}\n` +
+                     `รับแจ้ง เวลา: ${t1} น\n` +
+                     `เวลาออก ว.10: ${t2} น\n` +
+                     `เวลา ว.10: ${t3} น\n` +
+                     `เวลาเลิก ว.10: ${t4} น\n` +
+                     `เวลา ว.10 ส.ดพ.: ${t5} น\n` +
+                     `รถที่ออกเหตุ: ${carName}\n` +
+                     `ผู้ปฏิบัติงาน: ${team}\n` +
+                     `ผู้รายงาน: ${sender}`;
 
         processAndSend(text, { 
             type: `ช่วยเหลือประชาชน (${animalType})`, 
             date: getThaiDate(),
             place: place,
             len: animalSize,
-            staff: document.getElementById('res_team').value || '-',
+            staff: team,
             sender: sender,
-            t1: document.getElementById('r_t1').value,
-            t2: document.getElementById('r_t2').value,
-            t3: document.getElementById('r_t3').value,
-            t4: document.getElementById('r_t4').value,
-            t5: document.getElementById('r_t5').value,
+            t1: t1, t2: t2, t3: t3, t4: t4, t5: t5,
             car: carName 
         });
     }
