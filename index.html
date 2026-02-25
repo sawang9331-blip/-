@@ -145,7 +145,7 @@
 <script>
     let currentTargetId = ''; 
     let pendingReportData = null;
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqr4Yx-oQDdT8SoihiscI9S5MfMOjPN2ohqQCe7qVTsx0gLubn-Xattd8BTUxZlMiu9Q/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4YB8-6YyzMHjW9CBfIF0hDFsGp290EMwD7ZQn3JSxWsVAw1ZUrcwfj6wthYouHm9kag/exec";
 
     function getThaiDate() {
         const now = new Date();
@@ -192,7 +192,7 @@
                 5: document.getElementById('f_t5').value || '-'
             };
 
-            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\n------------------\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.4 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${carList}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
+            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\n------------------\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${carList}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
             
             jsonData = { type: "เพลิงไหม้", date: getThaiDate(), place, staff: team, sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: carList };
         } else {
@@ -211,7 +211,7 @@
                 5: document.getElementById('r_t5').value || '-'
             };
 
-            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animal})\n------------------\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.4 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${car}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
+            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animal})\n------------------\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${car}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
 
             jsonData = { type: `ช่วยเหลือ (${animal})`, date: getThaiDate(), place, len: size, staff: team, sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car };
         }
