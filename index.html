@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ส.ดพ.บางบอน V2.3.2 (Official)</title>
+    <title>ส.ดพ.บางบอน V2.3.3 (Official)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1a1a1a; color: #e0e0e0; padding: 10px; margin: 0; }
@@ -29,7 +29,7 @@
 <body>
 
 <header>
-    <h2>🚒 ส.ดพ.บางบอน (V2.3.2)</h2>
+    <h2>🚒 ส.ดพ.บางบอน (V2.3.3)</h2>
 </header>
 
 <div class="container">
@@ -39,11 +39,38 @@
         <input type="text" id="fire_place" placeholder="แตะเพื่อพิมพ์..." readonly onclick="openTextEditor('fire_place', '📍 สถานที่')">
         
         <label>🚒 รถที่ออกเหตุ</label>
-        <div class="car-grid">
-            <select id="fire_car1"><option value="">-- รถ 1 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option></select>
-            <select id="fire_car2"><option value="">-- รถ 2 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option></select>
-            <select id="fire_car3"><option value="">-- รถ 3 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option><option value="บางบอน 051-1">บางบอน 051-1</option></select>
-        </div>
+<div class="car-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    <select id="fire_car1">
+        <option value="">-- รถ 1 --</option>
+        <option value="บางบอน 061-1">บางบอน 061-1</option>
+        <option value="บางบอน 062-1">บางบอน 062-1</option>
+        <option value="บางบอน 041-1">บางบอน 041-1</option>
+        <option value="บางบอน 051-1">บางบอน 051-1</option>
+        <option value="บางบอน 052-1">บางบอน 052-1</option>
+        <option value="บางบอน 052-2">บางบอน 052-2</option>
+        <option value="บางบอน 053-1">บางบอน 053-1</option>
+    </select>
+    <select id="fire_car2">
+        <option value="">-- รถ 2 --</option>
+        <option value="บางบอน 061-1">บางบอน 061-1</option>
+        <option value="บางบอน 062-1">บางบอน 062-1</option>
+        <option value="บางบอน 041-1">บางบอน 041-1</option>
+        <option value="บางบอน 051-1">บางบอน 051-1</option>
+        <option value="บางบอน 052-1">บางบอน 052-1</option>
+        <option value="บางบอน 052-2">บางบอน 052-2</option>
+        <option value="บางบอน 053-1">บางบอน 053-1</option>
+    </select>
+    <select id="fire_car3" style="grid-column: span 2;">
+        <option value="">-- รถ 3 --</option>
+        <option value="บางบอน 061-1">บางบอน 061-1</option>
+        <option value="บางบอน 062-1">บางบอน 062-1</option>
+        <option value="บางบอน 041-1">บางบอน 041-1</option>
+        <option value="บางบอน 051-1">บางบอน 051-1</option>
+        <option value="บางบอน 052-1">บางบอน 052-1</option>
+        <option value="บางบอน 052-2">บางบอน 052-2</option>
+        <option value="บางบอน 053-1">บางบอน 053-1</option>
+    </select>
+</div>
 
         <div class="time-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 10px;">
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="f_t1"></div>
@@ -80,7 +107,16 @@
         <input type="text" id="res_place" placeholder="บ้านเลขที่..." readonly onclick="openTextEditor('res_place', '📍 สถานที่')">
         
         <label>🚒 รถที่ออกเหตุ</label>
-        <select id="res_car_single"><option value="">-- เลือกคันรถ --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option></select>
+<select id="res_car_single">
+    <option value="">-- เลือกคันรถ --</option>
+    <option value="บางบอน 061-1">บางบอน 061-1</option>
+    <option value="บางบอน 062-1">บางบอน 062-1</option>
+    <option value="บางบอน 041-1">บางบอน 041-1</option>
+    <option value="บางบอน 051-1">บางบอน 051-1</option>
+    <option value="บางบอน 052-1">บางบอน 052-1</option>
+    <option value="บางบอน 052-2">บางบอน 052-2</option>
+    <option value="บางบอน 053-1">บางบอน 053-1</option>
+</select>
 
         <div class="time-grid" style="margin-top: 10px;">
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="r_t1"></div>
