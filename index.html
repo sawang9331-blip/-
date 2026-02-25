@@ -40,14 +40,44 @@
         
         <label>🚒 รถที่ออกเหตุ</label>
         <div class="car-grid">
-            <select id="fire_car1"><option value="">-- รถ 1 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option></select>
-            <select id="fire_car2"><option value="">-- รถ 2 --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option><option value="บางบอน 041-1">บางบอน 041-1</option></select>
+            <select id="fire_car1">
+                <option value="">-- รถ 1 --</option>
+                <option value="บางบอน 061-1">บางบอน 061-1</option>
+                <option value="บางบอน 062-1">บางบอน 062-1</option>
+                <option value="บางบอน 041-1">บางบอน 041-1</option>
+                <option value="บางบอน 051-1">บางบอน 051-1</option>
+                <option value="บางบอน 052-1">บางบอน 052-1</option>
+                <option value="บางบอน 052-2">บางบอน 052-2</option>
+                <option value="บางบอน 053-1">บางบอน 053-1</option>
+            </select>
+            <select id="fire_car2">
+                <option value="">-- รถ 2 --</option>
+                <option value="บางบอน 061-1">บางบอน 061-1</option>
+                <option value="บางบอน 062-1">บางบอน 062-1</option>
+                <option value="บางบอน 041-1">บางบอน 041-1</option>
+                <option value="บางบอน 051-1">บางบอน 051-1</option>
+                <option value="บางบอน 052-1">บางบอน 052-1</option>
+                <option value="บางบอน 052-2">บางบอน 052-2</option>
+                <option value="บางบอน 053-1">บางบอน 053-1</option>
+            </select>
+            <select id="fire_car3">
+                <option value="">-- รถ 3 --</option>
+                <option value="บางบอน 061-1">บางบอน 061-1</option>
+                <option value="บางบอน 062-1">บางบอน 062-1</option>
+                <option value="บางบอน 041-1">บางบอน 041-1</option>
+                <option value="บางบอน 051-1">บางบอน 051-1</option>
+                <option value="บางบอน 052-1">บางบอน 052-1</option>
+                <option value="บางบอน 052-2">บางบอน 052-2</option>
+                <option value="บางบอน 053-1">บางบอน 053-1</option>
+            </select>
         </div>
 
         <div class="time-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 10px;">
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="f_t1"></div>
             <div class="time-item"><label>แจ้งออก</label><input type="time" id="f_t2"></div>
             <div class="time-item"><label>ว.10</label><input type="time" id="f_t3"></div>
+            <div class="time-item"><label>เลิก ว.10</label><input type="time" id="f_t4"></div>
+            <div class="time-item"><label>ว.4 ส.ดพ.</label><input type="time" id="f_t5"></div>
         </div>
         
         <label>👥 ผู้ออกปฏิบัติหน้าที่</label>
@@ -56,7 +86,7 @@
         <label>📢 ผู้รายงาน</label>
         <input type="text" id="fire_sender" placeholder="เรียกขาน..." readonly onclick="openTextEditor('fire_sender', '📢 ผู้รายงาน')">
         
-        <button class="btn-submit btn-red" onclick="prepareReport('fire')">ส่งรายงานเพลิงไหม้</button>
+        <button class="btn-submit btn-red" onclick="prepareReport('fire')">ตรวจสอบและส่งรายงานเพลิงไหม้</button>
     </div>
 
     <div class="form-group group-rescue">
@@ -65,29 +95,46 @@
         <select id="res_type_text" onchange="toggleOtherInput()">
             <option value="งูเหลือม">🐍 งูเหลือม</option>
             <option value="งูเห่า">🐍 งูเห่า</option>
+            <option value="งูทางมะพร้าว">🐍 งูทางมะพร้าว</option>
             <option value="ตัวเงินตัวทอง">🦎 ตัวเงินตัวทอง</option>
-            <option value="เหตุอื่นๆ">🛠️ เหตุอื่นๆ</option>
+            <option value="กำจัดรังต่อ">🐝 กำจัดรังต่อ</option>
+            <option value="กำจัดรังแตน">🐝 กำจัดรังแตน</option>
+            <option value="กำจัดรังผึ้ง">🐝 กำจัดรังผึ้ง</option>
+            <option value="เหตุอื่นๆ">🛠️ เหตุอื่นๆ (ระบุเพิ่ม)</option>
         </select>
-        <input type="text" id="res_type_other" style="display:none; margin-top:10px;" placeholder="ระบุเหตุอื่นๆ" readonly onclick="openTextEditor('res_type_other', '🛠️ เหตุอื่นๆ')">
+        <input type="text" id="res_type_other" style="display:none; margin-top:10px;" placeholder="ระบุเหตุอื่นๆ..." readonly onclick="openTextEditor('res_type_other', '🛠️ เหตุอื่นๆ')">
 
         <label>📏 ขนาด/จำนวน</label>
         <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร" readonly onclick="openTextEditor('res_len_text', '📏 ขนาด')">
         
         <label>📍 สถานที่</label>
-        <input type="text" id="res_place" placeholder="บ้านเลขที่..." readonly onclick="openTextEditor('res_place', '📍 สถานที่')">
+        <input type="text" id="res_place" placeholder="พิกัด/ที่อยู่..." readonly onclick="openTextEditor('res_place', '📍 สถานที่')">
         
         <label>🚒 รถที่ออกเหตุ</label>
-        <select id="res_car_single"><option value="">-- เลือกคันรถ --</option><option value="บางบอน 061-1">บางบอน 061-1</option><option value="บางบอน 062-1">บางบอน 062-1</option></select>
+        <select id="res_car_single">
+            <option value="">-- เลือกคันรถ --</option>
+            <option value="บางบอน 061-1">บางบอน 061-1</option>
+            <option value="บางบอน 062-1">บางบอน 062-1</option>
+            <option value="บางบอน 041-1">บางบอน 041-1</option>
+            <option value="บางบอน 051-1">บางบอน 051-1</option>
+            <option value="บางบอน 052-1">บางบอน 052-1</option>
+        </select>
 
         <div class="time-grid" style="margin-top: 10px;">
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="r_t1"></div>
+            <div class="time-item"><label>แจ้งออก</label><input type="time" id="r_t2"></div>
             <div class="time-item"><label>ว.10</label><input type="time" id="r_t3"></div>
+            <div class="time-item"><label>เลิก ว.10</label><input type="time" id="r_t4"></div>
+            <div class="time-item"><label>ว.4 ส.ดพ.</label><input type="time" id="r_t5"></div>
         </div>
+
+        <label>👥 รายชื่อเจ้าหน้าที่</label>
+        <textarea id="res_team" rows="2" placeholder="ระบุรายชื่อ..." readonly onclick="openTextEditor('res_team', '👥 รายชื่อ')"></textarea>
 
         <label>📢 ผู้รายงาน</label>
         <input type="text" id="res_sender" placeholder="เรียกขาน..." readonly onclick="openTextEditor('res_sender', '📢 ผู้รายงาน')">
         
-        <button class="btn-submit btn-yellow" onclick="prepareReport('rescue')">ส่งรายงานช่วยเหลือ</button>
+        <button class="btn-submit btn-yellow" onclick="prepareReport('rescue')">ตรวจสอบและส่งรายงานการช่วยเหลือ</button>
     </div>
 </div>
 
@@ -96,8 +143,8 @@
         <h3>📋 ตรวจสอบรายงาน</h3>
         <div id="previewBody" class="modal-body"></div>
         <div class="flex gap-3">
-            <button class="flex-1 bg-gray-600 p-3 rounded-lg" onclick="closePreview()">กลับ</button>
-            <button id="btnConfirmSend" class="flex-1 bg-green-600 p-3 rounded-lg text-white">ยืนยันและส่ง</button>
+            <button class="flex-1 bg-gray-600 p-3 rounded-lg font-bold" onclick="closePreview()">🔙 กลับไปแก้ไข</button>
+            <button id="btnConfirmSend" class="flex-1 bg-green-600 p-3 rounded-lg font-bold text-white">✅ ยืนยันและส่ง</button>
         </div>
     </div>
 </div>
@@ -105,7 +152,7 @@
 <div id="editorOverlay" class="overlay">
     <div class="modal-container">
         <h4 id="editor-title" class="text-lg font-bold mb-2">📝 แก้ไข</h4>
-        <textarea id="expanded-text" rows="8" class="w-full bg-[#1a1a1a] text-white p-3 rounded-lg"></textarea>
+        <textarea id="expanded-text" rows="10" class="w-full bg-[#1a1a1a] text-white p-3 rounded-lg"></textarea>
         <div class="flex justify-end gap-3 mt-4">
             <button class="bg-gray-600 px-5 py-2 rounded-md" onclick="closeTextEditor(false)">ยกเลิก</button>
             <button class="bg-blue-600 px-5 py-2 rounded-md" onclick="closeTextEditor(true)">ตกลง</button>
@@ -113,7 +160,7 @@
     </div>
 </div>
 
-<div id="copyHint" class="copy-hint">ส่งข้อมูลเรียบร้อย!</div>
+<div id="copyHint" class="copy-hint">ส่งข้อมูลเรียบร้อยแล้ว!</div>
 
 <script>
     let currentTargetId = ''; 
@@ -149,16 +196,22 @@
         let jsonData = {};
 
         if (type === 'fire') {
-            const carList = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value].filter(v => v).join(', ') || '-';
+            const cars = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value, document.getElementById('fire_car3').value].filter(v => v);
+            const carList = cars.join(', ') || '-';
             const place = document.getElementById('fire_place').value || '-';
             const sender = document.getElementById('fire_sender').value || '-';
             const team = document.getElementById('fire_team').value || '-';
-            const t1 = document.getElementById('f_t1').value || '-';
-            const t3 = document.getElementById('f_t3').value || '-';
+            const t = {
+                1: document.getElementById('f_t1').value || '-',
+                2: document.getElementById('f_t2').value || '-',
+                3: document.getElementById('f_t3').value || '-',
+                4: document.getElementById('f_t4').value || '-',
+                5: document.getElementById('f_t5').value || '-'
+            };
 
-            text = `🔥 รายงานเพลิงไหม้\n${getThaiDate()}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t1}\n⏰ ว.10: ${t3}\n🚒 รถ: ${carList}\n📢 ผู้รายงาน: ${sender}`;
+            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\n------------------\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${carList}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
             
-            jsonData = { type: "เพลิงไหม้", date: getThaiDate(), place: place, len: "-", staff: team, sender: sender, t1: t1, t3: t3, car: carList };
+            jsonData = { type: "เพลิงไหม้", date: getThaiDate(), place: place, len: "-", staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: carList };
         } else {
             let animal = document.getElementById('res_type_text').value;
             if(animal === 'เหตุอื่นๆ') animal = document.getElementById('res_type_other').value || 'เหตุอื่นๆ';
@@ -166,12 +219,18 @@
             const size = document.getElementById('res_len_text').value || '-';
             const place = document.getElementById('res_place').value || '-';
             const sender = document.getElementById('res_sender').value || '-';
-            const t1 = document.getElementById('r_t1').value || '-';
-            const t3 = document.getElementById('r_t3').value || '-';
+            const team = document.getElementById('res_team').value || '-';
+            const t = {
+                1: document.getElementById('r_t1').value || '-',
+                2: document.getElementById('r_t2').value || '-',
+                3: document.getElementById('r_t3').value || '-',
+                4: document.getElementById('r_t4').value || '-',
+                5: document.getElementById('r_t5').value || '-'
+            };
 
-            text = `🐾 ช่วยเหลือ (${animal})\n${getThaiDate()}\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t1}\n⏰ ว.10: ${t3}\n🚒 รถ: ${car}\n📢 ผู้รายงาน: ${sender}`;
+            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animal})\n------------------\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${car}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
 
-            jsonData = { type: `ช่วยเหลือ (${animal})`, date: getThaiDate(), place: place, len: size, staff: "-", sender: sender, t1: t1, t3: t3, car: car };
+            jsonData = { type: `ช่วยเหลือ (${animal})`, date: getThaiDate(), place: place, len: size, staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: car };
         }
 
         pendingReportData = { text, jsonData };
@@ -184,7 +243,20 @@
 
     async function finalSend() {
         if (!pendingReportData) return;
-        fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(pendingReportData.jsonData) });
+        const { text, jsonData } = pendingReportData;
+
+        // คัดลอกข้อความไปที่ Clipboard
+        try {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        } catch (err) { console.error(err); }
+
+        // ส่งข้อมูลเข้า Google Sheets
+        fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(jsonData) });
         
         const hint = document.getElementById('copyHint');
         hint.style.display = 'block';
