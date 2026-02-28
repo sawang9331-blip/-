@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1a1a1a; color: #e0e0e0; padding: 10px; margin: 0; min-height: 100vh; }
-        /* ... (Style เดิมของคุณทั้งหมด) ... */
         header { text-align: center; background: #b71c1c; color: white; padding: 15px; border-radius: 0 0 15px 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .container { max-width: 600px; margin: auto; }
         .form-group { background: #2d2d2d; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; }
@@ -32,64 +31,129 @@
     </style>
 </head>
 <body>
-    <header><h2>🚒 ส.ดพ.บางบอน (V2.3.6)</h2></header>
-    <div class="container">
+
+<header>
+    <h2>🚒 ส.ดพ.บางบอน (V2.3.6)</h2>
+</header>
+
+<div class="container">
+    <div class="form-group group-fire">
+        <h3>🔥 รายงานเหตุเพลิงไหม้</h3>
+        <label>📍 สถานที่เกิดเหตุ</label>
+        <input type="text" id="fire_place" placeholder="ระบุสถานที่...">
+        
+        <label>🚒 รถที่ออกเหตุ</label>
+        <div class="car-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+            <select id="fire_car1">
+                <option value="">-- รถ 1 --</option>
+                <option value="บางบอน 061-1">บางบอน 061-1</option>
+                <option value="บางบอน 062-1">บางบอน 062-1</option>
+                <option value="บางบอน 041-1">บางบอน 041-1</option>
+                <option value="บางบอน 051-1">บางบอน 051-1</option>
+                <option value="บางบอน 052-1">บางบอน 052-1</option>
+                <option value="บางบอน 053-1">บางบอน 053-1</option>
+            </select>
+            <select id="fire_car2">
+                <option value="">-- รถ 2 --</option>
+                <option value="บางบอน 061-1">บางบอน 061-1</option>
+                <option value="บางบอน 062-1">บางบอน 062-1</option>
+                <option value="บางบอน 041-1">บางบอน 041-1</option>
+                <option value="บางบอน 051-1">บางบอน 051-1</option>
+                <option value="บางบอน 052-1">บางบอน 052-1</option>
+                <option value="บางบอน 053-1">บางบอน 053-1</option>
+            </select>
+            <select id="fire_car3">
+                <option value="">-- รถ 3 --</option>
+                <option value="บางบอน 061-1">บางบอน 061-1</option>
+                <option value="บางบอน 062-1">บางบอน 062-1</option>
+                <option value="บางบอน 041-1">บางบอน 041-1</option>
+                <option value="บางบอน 051-1">บางบอน 051-1</option>
+                <option value="บางบอน 052-1">บางบอน 052-1</option>
+                <option value="บางบอน 053-1">บางบอน 053-1</option>
+            </select>
         </div>
 
-    <script>
-        // ใช้ URL ที่คุณได้รับจากการ Deploy (Everyone)
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5J5FMDXRS2feq7H3H12v9OCFsmpRt59YBiRoC9K2yzX92mUYyKRKm94SG0--d81LAgA/exec";
-
-        // ฟังก์ชันสำคัญ: ป้องกัน JavaScript Error จนจอขาว
-        window.onerror = function(msg, url, line) {
-            console.error("พบข้อผิดพลาด: ", msg, " ที่บรรทัด: ", line);
-            return false; 
-        };
-
-        // --- เพิ่มเติมส่วนส่งข้อมูลให้ GitHub Pages รองรับ ---
-        async function sendFinal() {
-            if (!pendingData) return;
-            const { text, json } = pendingData;
-
-            // คัดลอกข้อความ
-            try {
-                navigator.clipboard.writeText(text);
-            } catch (err) {
-                const el = document.createElement('textarea');
-                el.value = text;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-            }
-
-            // ส่งข้อมูลไปยัง Google Sheets
-            // ปรับ Headers เพื่อให้ผ่านระบบความปลอดภัยของ GitHub และ Google
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(json)
-            }).then(() => {
-                document.getElementById('copyHint').style.display = 'block';
-                setTimeout(() => { document.getElementById('copyHint').style.display = 'none'; }, 2500);
-                closePreview();
-            }).catch(e => {
-                alert("ส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่: " + e.message);
-            });
-        }
+        <div class="time-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 10px;">
+            <div class="time-item"><label>รับแจ้ง</label><input type="time" id="f_t1"></div>
+            <div class="time-item"><label>แจ้งออก</label><input type="time" id="f_t2"></div>
+            <div class="time-item"><label>ว.10</label><input type="time" id="f_t3"></div>
+            <div class="time-item"><label>เลิก ว.10</label><input type="time" id="f_t4"></div>
+            <div class="time-item"><label>ว.10 ส.ดพ.</label><input type="time" id="f_t5"></div>
+        </div>
         
-        // (ฟังก์ชัน generateStaff, prepareReport อื่นๆ ของคุณคงเดิม)
-    </script>
-</body>
-</html>
-<script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-uNZLvttpig1h7PhSK9gI5Icg1JOc2Ttx6r2Y50fTEMQkHfz83TCLXnDwMje7Lp_Xbg/exec";
+        <label>👥 ผู้ปฏิบัติหน้าที่</label>
+        <div class="staff-selector"><div id="fire_team_list"></div></div>
+        
+        <label>📢 ผู้รายงาน</label>
+        <div class="staff-selector"><div id="fire_sender_list"></div></div>
+        
+        <button class="btn-submit btn-red" onclick="prepareReport('fire')">ส่งรายงานเพลิงไหม้</button>
+    </div>
 
-    // ฟังก์ชันสร้างรายชื่อเจ้าหน้าที่ (เหมือนเดิม)
+    <div class="form-group group-rescue">
+        <h3>🐾 ช่วยเหลือประชาชน / 501</h3>
+        <label>🐾 ชนิดสัตว์ / เหตุ</label>
+        <select id="res_type_text" onchange="toggleOther()">
+            <option value="งูเหลือม">🐍 งูเหลือม</option>
+            <option value="งูเห่า">🐍 งูเห่า</option>
+            <option value="ตัวเงินตัวทอง">🦎 ตัวเงินตัวทอง</option>
+            <option value="เหตุอื่นๆ">🛠️ เหตุอื่นๆ</option>
+        </select>
+        <input type="text" id="res_type_other" style="display:none; margin-top:10px;" placeholder="ระบุเหตุอื่นๆ">
+
+        <label>📏 ขนาด/จำนวน</label>
+        <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร">
+        <label>📍 สถานที่</label>
+        <input type="text" id="res_place" placeholder="บ้านเลขที่...">
+        
+        <label>🚒 รถที่ออกเหตุ</label>
+        <select id="res_car_single">
+            <option value="">-- เลือกคันรถ --</option>
+            <option value="บางบอน 061-1">บางบอน 061-1</option>
+            <option value="บางบอน 062-1">บางบอน 062-1</option>
+            <option value="บางบอน 041-1">บางบอน 041-1</option>
+            <option value="บางบอน 051-1">บางบอน 051-1</option>
+            <option value="บางบอน 052-1">บางบอน 052-1</option>
+            <option value="บางบอน 053-1">บางบอน 053-1</option>
+        </select>
+
+        <div class="time-grid" style="margin-top: 10px;">
+            <div class="time-item"><label>รับแจ้ง</label><input type="time" id="r_t1"></div>
+            <div class="time-item"><label>แจ้งออก</label><input type="time" id="r_t2"></div>
+            <div class="time-item"><label>ว.10</label><input type="time" id="r_t3"></div>
+            <div class="time-item"><label>เลิก ว.10</label><input type="time" id="r_t4"></div>
+            <div class="time-item"><label>ว.10 ส.ดพ.</label><input type="time" id="r_t5"></div>
+        </div>
+
+        <label>👥 ผู้ปฏิบัติหน้าที่</label>
+        <div class="staff-selector"><div id="res_team_list"></div></div>
+
+        <label>📢 ผู้รายงาน</label>
+        <div class="staff-selector"><div id="res_sender_list"></div></div>
+
+        <button class="btn-submit btn-yellow" onclick="prepareReport('rescue')">ส่งรายงานการช่วยเหลือ</button>
+    </div>
+</div>
+
+<div id="previewOverlay" class="overlay">
+    <div class="modal-container">
+        <h3>📋 ตรวจสอบรายงาน</h3>
+        <div id="previewBody" class="modal-body"></div>
+        <div class="flex gap-3">
+            <button class="flex-1 bg-gray-600 p-3 rounded-lg font-bold" onclick="closePreview()">กลับ</button>
+            <button id="btnConfirmSend" class="flex-1 bg-green-600 p-3 rounded-lg font-bold text-white">ยืนยันส่งข้อมูล</button>
+        </div>
+    </div>
+</div>
+
+<div id="copyHint" class="copy-hint">ส่งข้อมูลและคัดลอกแล้ว!</div>
+
+<script>
+    // ป้องกันจอขาวด้วย Error Handler
+    window.onerror = function(m, u, l) { console.error("Global Error:", m); return false; };
+
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5J5FMDXRS2feq7H3H12v9OCFsmpRt59YBiRoC9K2yzX92mUYyKRKm94SG0--d81LAgA/exec";
+
     function generateStaff() {
         const containers = {
             fTeam: document.getElementById('fire_team_list'),
@@ -97,21 +161,36 @@
             rTeam: document.getElementById('res_team_list'),
             rSend: document.getElementById('res_sender_list')
         };
-        let html = '';
+        
+        let htmlTeam = '';
         for (let g = 1; g <= 4; g++) {
-            html += `<div class="group-title">กลุ่มบางบอน ${g}-X</div><div class="staff-grid">`;
+            htmlTeam += `<div class="group-title">กลุ่มบางบอน ${g}-X</div><div class="staff-grid">`;
             for (let i = 1; i <= 10; i++) {
                 const name = `บางบอน ${g}-${i}`;
-                html += `<label class="staff-item"><input type="checkbox" class="st-chk" value="${name}"> ${name}</label>`;
+                htmlTeam += `<label class="staff-item"><input type="checkbox" class="st-chk" value="${name}"> ${name}</label>`;
             }
-            html += `</div>`;
+            htmlTeam += `</div>`;
         }
-        containers.fTeam.innerHTML = html;
-        containers.rTeam.innerHTML = html;
-        containers.fSend.innerHTML = html.replace(/type="checkbox" class="st-chk"/g, 'type="radio" name="f_sender"');
-        containers.rSend.innerHTML = html.replace(/type="checkbox" class="st-chk"/g, 'type="radio" name="r_sender"');
+
+        let htmlSend = '';
+        for (let g = 1; g <= 4; g++) {
+            htmlSend += `<div class="group-title">กลุ่มบางบอน ${g}-X</div><div class="staff-grid">`;
+            for (let i = 1; i <= 10; i++) {
+                const name = `บางบอน ${g}-${i}`;
+                // แยกชื่อ name ของ radio ให้ต่างกันระหว่างชุด Fire กับ Rescue
+                const radioName = containers.fSend.id.includes('fire') ? 'f_sender' : 'r_sender';
+                htmlSend += `<label class="staff-item"><input type="radio" name="${radioName}" value="${name}"> ${name}</label>`;
+            }
+            htmlSend += `</div>`;
+        }
+
+        if(containers.fTeam) containers.fTeam.innerHTML = htmlTeam;
+        if(containers.rTeam) containers.rTeam.innerHTML = htmlTeam;
+        
+        // สำหรับ Radio Button ต้องระบุชื่อกลุ่มให้ชัดเจน
+        containers.fSend.innerHTML = htmlSend.replace(/r_sender/g, 'f_sender');
+        containers.rSend.innerHTML = htmlSend.replace(/f_sender/g, 'r_sender');
     }
-    generateStaff();
 
     function getThaiDate() {
         const d = new Date();
@@ -121,7 +200,8 @@
 
     function toggleOther() {
         const s = document.getElementById('res_type_text');
-        document.getElementById('res_type_other').style.display = (s.value === 'เหตุอื่นๆ') ? 'block' : 'none';
+        const otherInput = document.getElementById('res_type_other');
+        if(otherInput) otherInput.style.display = (s.value === 'เหตุอื่นๆ') ? 'block' : 'none';
     }
 
     let pendingData = null;
@@ -140,7 +220,13 @@
             ].filter(v => v).join(', ') || '-';
             const team = Array.from(document.querySelectorAll('#fire_team_list input:checked')).map(e => e.value).join(', ') || '-';
             const sender = (document.querySelector('input[name="f_sender"]:checked') || {value: '-'}).value;
-            const t = { 1: document.getElementById('f_t1').value || '-', 2: document.getElementById('f_t2').value || '-', 3: document.getElementById('f_t3').value || '-', 4: document.getElementById('f_t4').value || '-', 5: document.getElementById('f_t5').value || '-' };
+            const t = { 
+                1: document.getElementById('f_t1').value || '-', 
+                2: document.getElementById('f_t2').value || '-', 
+                3: document.getElementById('f_t3').value || '-', 
+                4: document.getElementById('f_t4').value || '-', 
+                5: document.getElementById('f_t5').value || '-' 
+            };
 
             text = `${dateStr}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\n------------------\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${cars}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
             json = { type: "เพลิงไหม้", date: dateStr, place: place, len: "-", staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: cars };
@@ -152,9 +238,15 @@
             const car = document.getElementById('res_car_single').value || '-';
             const team = Array.from(document.querySelectorAll('#res_team_list input:checked')).map(e => e.value).join(', ') || '-';
             const sender = (document.querySelector('input[name="r_sender"]:checked') || {value: '-'}).value;
-            const t = { 1: document.getElementById('r_t1').value || '-', 2: document.getElementById('r_t2').value || '-', 3: document.getElementById('r_t3').value || '-', 4: document.getElementById('r_t4').value || '-', 5: document.getElementById('r_t5').value || '-' };
+            const t = { 
+                1: document.getElementById('r_t1').value || '-', 
+                2: document.getElementById('r_t2').value || '-', 
+                3: document.getElementById('r_t3').value || '-', 
+                4: document.getElementById('r_t4').value || '-', 
+                5: document.getElementById('r_t5').value || '-' 
+            };
 
-            text = `${dateStr}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animal})\n------------------\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${car}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
+            text = `${dateStr}\nส.ดพ.บางบอน\n🐾 ช่วยلهประชาชน (${animal})\n------------------\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${car}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
             json = { type: `501 (${animal})`, date: dateStr, place: place, len: size, staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: car };
         }
 
@@ -171,42 +263,45 @@
         const btn = document.getElementById('btnConfirmSend');
         const originalText = btn.innerText;
         
-        // สถานะกำลังส่ง
         btn.disabled = true;
-        btn.innerText = "กำลังส่งข้อมูล...";
-        btn.classList.replace('bg-green-600', 'bg-gray-500');
+        btn.innerText = "กำลังส่ง...";
 
         const { text, json } = pendingData;
         
-        // 1. คัดลอกลงคลิปบอร์ด
+        // 1. คัดลอก
         try {
+            await navigator.clipboard.writeText(text);
+        } catch (e) {
             const el = document.createElement('textarea');
             el.value = text;
             document.body.appendChild(el);
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-        } catch (e) {}
+        }
 
-        // 2. ส่งข้อมูลเข้า Google Sheets
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify(json)
-        }).then(() => {
-            const hint = document.getElementById('copyHint');
-            hint.style.display = 'block';
-            setTimeout(() => { hint.style.display = 'none'; }, 2500);
+        // 2. ส่งข้อมูล (ใช้ no-cors เพื่อเลี่ยงปัญหาเบราว์เซอร์บล็อก GitHub Pages)
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(json)
+            });
+            
+            document.getElementById('copyHint').style.display = 'block';
+            setTimeout(() => { document.getElementById('copyHint').style.display = 'none'; }, 2500);
             closePreview();
-        }).catch(err => {
-            alert("เกิดข้อผิดพลาดในการเชื่อมต่อ");
-            console.error(err);
-        }).finally(() => {
-            // คืนค่าปุ่ม
+        } catch (err) {
+            alert("ส่งข้อมูลไม่สำเร็จ แต่คัดลอกรายงานไว้แล้ว");
+        } finally {
             btn.disabled = false;
             btn.innerText = originalText;
-            btn.classList.replace('bg-gray-500', 'bg-green-600');
-        });
+        }
     }
+
+    // รันเมื่อโหลดหน้ากระดาษ
+    window.onload = generateStaff;
 </script>
+</body>
+</html>
