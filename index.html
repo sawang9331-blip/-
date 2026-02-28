@@ -39,38 +39,38 @@
         <input type="text" id="fire_place" placeholder="แตะเพื่อพิมพ์..." readonly onclick="openTextEditor('fire_place', '📍 สถานที่')">
         
         <label>🚒 รถที่ออกเหตุ</label>
-<div class="car-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-    <select id="fire_car1">
-        <option value="">-- รถ 1 --</option>
-        <option value="บางบอน 061-1">บางบอน 061-1</option>
-        <option value="บางบอน 062-1">บางบอน 062-1</option>
-        <option value="บางบอน 041-1">บางบอน 041-1</option>
-        <option value="บางบอน 051-1">บางบอน 051-1</option>
-        <option value="บางบอน 052-1">บางบอน 052-1</option>
-        <option value="บางบอน 052-2">บางบอน 052-2</option>
-        <option value="บางบอน 053-1">บางบอน 053-1</option>
-    </select>
-    <select id="fire_car2">
-        <option value="">-- รถ 2 --</option>
-        <option value="บางบอน 061-1">บางบอน 061-1</option>
-        <option value="บางบอน 062-1">บางบอน 062-1</option>
-        <option value="บางบอน 041-1">บางบอน 041-1</option>
-        <option value="บางบอน 051-1">บางบอน 051-1</option>
-        <option value="บางบอน 052-1">บางบอน 052-1</option>
-        <option value="บางบอน 052-2">บางบอน 052-2</option>
-        <option value="บางบอน 053-1">บางบอน 053-1</option>
-    </select>
-    <select id="fire_car3" style="grid-column: span 2;">
-        <option value="">-- รถ 3 --</option>
-        <option value="บางบอน 061-1">บางบอน 061-1</option>
-        <option value="บางบอน 062-1">บางบอน 062-1</option>
-        <option value="บางบอน 041-1">บางบอน 041-1</option>
-        <option value="บางบอน 051-1">บางบอน 051-1</option>
-        <option value="บางบอน 052-1">บางบอน 052-1</option>
-        <option value="บางบอน 052-2">บางบอน 052-2</option>
-        <option value="บางบอน 053-1">บางบอน 053-1</option>
-    </select>
-</div>
+        <div class="car-grid">
+            <select id="fire_car1">
+                <option value="">-- รถ 1 --</option>
+                <option value="บางบอน 061-1">บางบอน 061-1</option>
+                <option value="บางบอน 062-1">บางบอน 062-1</option>
+                <option value="บางบอน 041-1">บางบอน 041-1</option>
+                <option value="บางบอน 051-1">บางบอน 051-1</option>
+                <option value="บางบอน 052-1">บางบอน 052-1</option>
+                <option value="บางบอน 052-2">บางบอน 052-2</option>
+                <option value="บางบอน 053-1">บางบอน 053-1</option>
+            </select>
+            <select id="fire_car2">
+                <option value="">-- รถ 2 --</option>
+                <option value="บางบอน 061-1">บางบอน 061-1</option>
+                <option value="บางบอน 062-1">บางบอน 062-1</option>
+                <option value="บางบอน 041-1">บางบอน 041-1</option>
+                <option value="บางบอน 051-1">บางบอน 051-1</option>
+                <option value="บางบอน 052-1">บางบอน 052-1</option>
+                <option value="บางบอน 052-2">บางบอน 052-2</option>
+                <option value="บางบอน 053-1">บางบอน 053-1</option>
+            </select>
+            <select id="fire_car3" style="grid-column: span 2;">
+                <option value="">-- รถ 3 --</option>
+                <option value="บางบอน 061-1">บางบอน 061-1</option>
+                <option value="บางบอน 062-1">บางบอน 062-1</option>
+                <option value="บางบอน 041-1">บางบอน 041-1</option>
+                <option value="บางบอน 051-1">บางบอน 051-1</option>
+                <option value="บางบอน 052-1">บางบอน 052-1</option>
+                <option value="บางบอน 052-2">บางบอน 052-2</option>
+                <option value="บางบอน 053-1">บางบอน 053-1</option>
+            </select>
+        </div>
 
         <div class="time-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 10px;">
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="f_t1"></div>
@@ -107,16 +107,16 @@
         <input type="text" id="res_place" placeholder="บ้านเลขที่..." readonly onclick="openTextEditor('res_place', '📍 สถานที่')">
         
         <label>🚒 รถที่ออกเหตุ</label>
-<select id="res_car_single">
-    <option value="">-- เลือกคันรถ --</option>
-    <option value="บางบอน 061-1">บางบอน 061-1</option>
-    <option value="บางบอน 062-1">บางบอน 062-1</option>
-    <option value="บางบอน 041-1">บางบอน 041-1</option>
-    <option value="บางบอน 051-1">บางบอน 051-1</option>
-    <option value="บางบอน 052-1">บางบอน 052-1</option>
-    <option value="บางบอน 052-2">บางบอน 052-2</option>
-    <option value="บางบอน 053-1">บางบอน 053-1</option>
-</select>
+        <select id="res_car_single">
+            <option value="">-- เลือกคันรถ --</option>
+            <option value="บางบอน 061-1">บางบอน 061-1</option>
+            <option value="บางบอน 062-1">บางบอน 062-1</option>
+            <option value="บางบอน 041-1">บางบอน 041-1</option>
+            <option value="บางบอน 051-1">บางบอน 051-1</option>
+            <option value="บางบอน 052-1">บางบอน 052-1</option>
+            <option value="บางบอน 052-2">บางบอน 052-2</option>
+            <option value="บางบอน 053-1">บางบอน 053-1</option>
+        </select>
 
         <div class="time-grid" style="margin-top: 10px;">
             <div class="time-item"><label>รับแจ้ง</label><input type="time" id="r_t1"></div>
@@ -163,6 +163,7 @@
 <script>
     let currentTargetId = ''; 
     let pendingReportData = null;
+    // ใช้ URL ล่าสุดของคุณ
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVg9G5kYAWL6MfMpKclixCNiqs2K4Wu5z6-qXbrgLSmyQTuamO7tSuq81X3p9HPqGTpA/exec";
 
     function getThaiDate() {
@@ -207,7 +208,7 @@
                 5: document.getElementById('f_t5').value || '-'
             };
 
-            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\n------------------\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10 / เริ่มใช้น้ำ: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${carList}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
+            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\n------------------\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${carList}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
             
             jsonData = { type: "เพลิงไหม้", date: getThaiDate(), place: place, len: "-", staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: carList };
         } else {
@@ -226,9 +227,24 @@
                 5: document.getElementById('r_t5').value || '-'
             };
 
-            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animal})\n------------------\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10 / เริ่มใช้น้ำ: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${car}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
+            // ✅ ปรับคำแสดงผลหน้า Preview
+            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animal})\n------------------\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${car}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
 
-            jsonData = { type: `ช่วยเหลือ (${animal})`, date: getThaiDate(), place: place, len: size, staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: car };
+            // ✅ ปรับข้อมูลที่จะส่งไป Sheets ให้มีคำว่า "ช่วยเหลือประชาชน"
+            jsonData = { 
+                type: `501 (${animal})`, 
+                date: getThaiDate(), 
+                place: place, 
+                len: size, 
+                staff: team, 
+                sender: sender, 
+                t1: t[1], 
+                t2: t[2], 
+                t3: t[3], 
+                t4: t[4], 
+                t5: t[5], 
+                car: car 
+            };
         }
 
         pendingReportData = { text, jsonData };
@@ -243,6 +259,7 @@
         if (!pendingReportData) return;
         const { text, jsonData } = pendingReportData;
 
+        // คัดลอกข้อความไปที่ Clipboard
         try {
             const textArea = document.createElement("textarea");
             textArea.value = text;
@@ -252,6 +269,7 @@
             document.body.removeChild(textArea);
         } catch (err) { console.error(err); }
 
+        // ส่งข้อมูลไปที่ Google Sheets
         fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(jsonData) });
         
         const hint = document.getElementById('copyHint');
