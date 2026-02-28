@@ -1,3 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ส.ดพ.บางบอน V2.3.6 (Official)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1a1a1a; color: #e0e0e0; padding: 10px; margin: 0; min-height: 100vh; }
+        /* ... (Style เดิมของคุณทั้งหมด) ... */
+        header { text-align: center; background: #b71c1c; color: white; padding: 15px; border-radius: 0 0 15px 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .container { max-width: 600px; margin: auto; }
+        .form-group { background: #2d2d2d; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; }
+        .group-fire { border-top: 5px solid #ff5252; }
+        .group-rescue { border-top: 5px solid #ffd740; }
+        h3 { margin-top: 0; color: #fff; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        label { display: block; margin-top: 12px; font-weight: bold; font-size: 0.9em; color: #bbb; }
+        input, select { width: 100%; padding: 10px; margin-top: 5px; background-color: #3d3d3d; border: 1px solid #555; border-radius: 6px; color: #fff; box-sizing: border-box; font-size: 16px; }
+        .car-grid, .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-submit { width: 100%; padding: 15px; margin-top: 20px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; font-size: 1.1em; transition: 0.3s; }
+        .btn-red { background: #d32f2f; box-shadow: 0 4px 0 #891a1a; }
+        .btn-yellow { background: #fbc02d; color: #000; box-shadow: 0 4px 0 #c49000; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+        .modal-container { background: #2d2d2d; padding: 20px; border-radius: 15px; width: 100%; max-width: 500px; border: 1px solid #555; max-height: 90vh; display: flex; flex-direction: column; }
+        .modal-body { overflow-y: auto; flex-grow: 1; margin: 15px 0; background: #000; color: #00ff41; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; white-space: pre-wrap; font-size: 0.95em; border: 1px solid #333; }
+        .copy-hint { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #4caf50; color: white; padding: 10px 25px; border-radius: 30px; font-weight: bold; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .staff-selector { background: #1a1a1a; border-radius: 8px; padding: 10px; margin-top: 5px; max-height: 180px; overflow-y: auto; border: 1px solid #444; }
+        .staff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .staff-item { display: flex; align-items: center; gap: 8px; font-size: 0.85em; cursor: pointer; background: #333; padding: 4px 8px; border-radius: 4px; }
+        .staff-item input { width: auto; margin-top: 0; }
+        .group-title { font-size: 0.75em; color: #ffd740; margin: 8px 0 4px 0; border-bottom: 1px dashed #444; }
+    </style>
+</head>
+<body>
+    <header><h2>🚒 ส.ดพ.บางบอน (V2.3.6)</h2></header>
+    <div class="container">
+        </div>
+
+    <script>
+        // ใช้ URL ที่คุณได้รับจากการ Deploy (Everyone)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5J5FMDXRS2feq7H3H12v9OCFsmpRt59YBiRoC9K2yzX92mUYyKRKm94SG0--d81LAgA/exec";
+
+        // ฟังก์ชันสำคัญ: ป้องกัน JavaScript Error จนจอขาว
+        window.onerror = function(msg, url, line) {
+            console.error("พบข้อผิดพลาด: ", msg, " ที่บรรทัด: ", line);
+            return false; 
+        };
+
+        // --- เพิ่มเติมส่วนส่งข้อมูลให้ GitHub Pages รองรับ ---
+        async function sendFinal() {
+            if (!pendingData) return;
+            const { text, json } = pendingData;
+
+            // คัดลอกข้อความ
+            try {
+                navigator.clipboard.writeText(text);
+            } catch (err) {
+                const el = document.createElement('textarea');
+                el.value = text;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+            }
+
+            // ส่งข้อมูลไปยัง Google Sheets
+            // ปรับ Headers เพื่อให้ผ่านระบบความปลอดภัยของ GitHub และ Google
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(json)
+            }).then(() => {
+                document.getElementById('copyHint').style.display = 'block';
+                setTimeout(() => { document.getElementById('copyHint').style.display = 'none'; }, 2500);
+                closePreview();
+            }).catch(e => {
+                alert("ส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่: " + e.message);
+            });
+        }
+        
+        // (ฟังก์ชัน generateStaff, prepareReport อื่นๆ ของคุณคงเดิม)
+    </script>
+</body>
+</html>
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-uNZLvttpig1h7PhSK9gI5Icg1JOc2Ttx6r2Y50fTEMQkHfz83TCLXnDwMje7Lp_Xbg/exec";
 
