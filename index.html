@@ -63,7 +63,7 @@
         <label>📢 ผู้รายงาน</label>
         <div class="staff-selector"><div id="fire_sender_list"></div></div>
         
-        <button class="btn-submit btn-red" onclick="prepareReport('fire')">ส่งรายงานเพลิงไหม้</button>
+        <button class="btn-submit btn-red" onclick="prepareReport('fire')">ตรวจสอบรายงานเพลิงไหม้</button>
     </div>
 
     <div class="form-group group-rescue">
@@ -107,16 +107,16 @@
         <label>📢 ผู้รายงาน</label>
         <div class="staff-selector"><div id="res_sender_list"></div></div>
 
-        <button class="btn-submit btn-yellow" onclick="prepareReport('rescue')">ส่งรายงานการช่วยเหลือ</button>
+        <button class="btn-submit btn-yellow" onclick="prepareReport('rescue')">ตรวจสอบรายงานการช่วยเหลือ</button>
     </div>
 </div>
 
 <div id="previewOverlay" class="overlay">
     <div class="modal-container">
-        <h3>📋 ตรวจสอบรายงาน</h3>
+        <h3 id="previewTitle">📋 ตรวจสอบรายงาน</h3>
         <div id="previewBody" class="modal-body"></div>
         <div class="flex gap-3">
-            <button class="flex-1 bg-gray-600 p-3 rounded-lg font-bold" onclick="closePreview()">กลับ</button>
+            <button class="flex-1 bg-gray-600 p-3 rounded-lg font-bold" onclick="closePreview()">กลับไปแก้ไข</button>
             <button id="btnConfirmSend" class="flex-1 bg-green-600 p-3 rounded-lg font-bold text-white">ยืนยันส่งข้อมูล</button>
         </div>
     </div>
@@ -125,8 +125,7 @@
 <div id="copyHint" class="copy-hint">ส่งข้อมูลและคัดลอกแล้ว!</div>
 
 <script>
-    // ⚠️ ใส่ลิงก์ Web App URL ของคุณที่นี่
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyukWR2PO-U3G7ZBQEmSVKLJ0viXyaAOsJKLJXb-afdSB9uBOC5njdC1E2NwxuwFP_g2Q/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5VPmYPZIjVN-JFgwTHi-QvLnoz2zKD5EVsR8a9QrSZY2MFC0I_m95KfgU_uFdlCU/exec";
 
     function generateStaff() {
         const containers = {
@@ -148,7 +147,6 @@
 
         containers.fTeam.innerHTML = htmlBase;
         containers.rTeam.innerHTML = htmlBase;
-        // ปรับ Radio สำหรับผู้รายงาน
         containers.fSend.innerHTML = htmlBase.replace(/type="checkbox" class="st-chk"/g, 'type="radio" name="f_sender"');
         containers.rSend.innerHTML = htmlBase.replace(/type="checkbox" class="st-chk"/g, 'type="radio" name="r_sender"');
     }
@@ -207,11 +205,10 @@
         const btn = document.getElementById('btnConfirmSend');
         const originalText = btn.innerText;
         btn.disabled = true;
-        btn.innerText = "กำลังส่ง...";
+        btn.innerText = "กำลังบันทึก...";
 
         const { text, json } = pendingData;
         
-        // 1. คัดลอกข้อความ
         try {
             await navigator.clipboard.writeText(text);
         } catch (e) {
@@ -221,7 +218,6 @@
             document.body.removeChild(el);
         }
 
-        // 2. ส่งข้อมูลเข้า Google Sheets
         try {
             await fetch(SCRIPT_URL, {
                 method: 'POST',
@@ -232,13 +228,15 @@
             
             document.getElementById('copyHint').style.display = 'block';
             setTimeout(() => { document.getElementById('copyHint').style.display = 'none'; }, 2500);
-            closePreview();
+            
+            // แจ้งเตือนในหน้า Preview แทนการปิดทันที
+            btn.innerText = "ส่งสำเร็จแล้ว ✅";
+            btn.className = "flex-1 bg-blue-600 p-3 rounded-lg font-bold text-white";
             alert("✅ คัดลอกและบันทึกลง Google Sheets เรียบร้อย!");
         } catch (err) {
             alert("❌ บันทึกลง Sheets ไม่สำเร็จ แต่คัดลอกข้อความให้แล้ว");
         } finally {
             btn.disabled = false;
-            btn.innerText = originalText;
         }
     }
 
