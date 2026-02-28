@@ -23,7 +23,6 @@
         .modal-container { background: #2d2d2d; padding: 20px; border-radius: 15px; width: 100%; max-width: 500px; border: 1px solid #555; max-height: 90vh; display: flex; flex-direction: column; }
         .modal-body { overflow-y: auto; flex-grow: 1; margin: 15px 0; background: #000; color: #00ff41; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; white-space: pre-wrap; font-size: 0.95em; border: 1px solid #333; }
         .copy-hint { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #4caf50; color: white; padding: 10px 25px; border-radius: 30px; font-weight: bold; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        
         .staff-selector { background: #1a1a1a; border-radius: 8px; padding: 10px; margin-top: 5px; max-height: 180px; overflow-y: auto; border: 1px solid #444; }
         .staff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
         .staff-item { display: flex; align-items: center; gap: 8px; font-size: 0.85em; cursor: pointer; background: #333; padding: 4px 8px; border-radius: 4px; }
@@ -44,7 +43,7 @@
         <input type="text" id="fire_place" placeholder="ระบุสถานที่...">
         
         <label>🚒 รถที่ออกเหตุ</label>
-        <div class="car-grid">
+        <div class="car-grid" style="grid-template-columns: 1fr 1fr 1fr;">
             <select id="fire_car1">
                 <option value="">-- รถ 1 --</option>
                 <option value="บางบอน 061-1">บางบอน 061-1</option>
@@ -82,10 +81,10 @@
             <div class="time-item"><label>ว.10 ส.ดพ.</label><input type="time" id="f_t5"></div>
         </div>
         
-        <label>👥 ผู้ปฏิบัติหน้าที่ (เลือกได้หลายท่าน)</label>
+        <label>👥 ผู้ปฏิบัติหน้าที่</label>
         <div class="staff-selector"><div id="fire_team_list"></div></div>
         
-        <label>📢 ผู้รายงาน (เลือก 1 ท่าน)</label>
+        <label>📢 ผู้รายงาน</label>
         <div class="staff-selector"><div id="fire_sender_list"></div></div>
         
         <button class="btn-submit btn-red" onclick="prepareReport('fire')">ส่งรายงานเพลิงไหม้</button>
@@ -126,10 +125,10 @@
             <div class="time-item"><label>ว.10 ส.ดพ.</label><input type="time" id="r_t5"></div>
         </div>
 
-        <label>👥 ผู้ปฏิบัติหน้าที่ (เลือกได้หลายท่าน)</label>
+        <label>👥 ผู้ปฏิบัติหน้าที่</label>
         <div class="staff-selector"><div id="res_team_list"></div></div>
 
-        <label>📢 ผู้รายงาน (เลือก 1 ท่าน)</label>
+        <label>📢 ผู้รายงาน</label>
         <div class="staff-selector"><div id="res_sender_list"></div></div>
 
         <button class="btn-submit btn-yellow" onclick="prepareReport('rescue')">ส่งรายงานการช่วยเหลือ</button>
@@ -150,6 +149,7 @@
 <div id="copyHint" class="copy-hint">ส่งข้อมูลและคัดลอกแล้ว!</div>
 
 <script>
+    // ⚠️ ตรวจสอบ URL นี้ให้ตรงกับที่ Deploy ล่าสุด (Who has access: Anyone)
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5J5FMDXRS2feq7H3H12v9OCFsmpRt59YBiRoC9K2yzX92mUYyKRKm94SG0--d81LAgA/exec";
 
     function generateStaff() {
@@ -172,8 +172,6 @@
 
         containers.fTeam.innerHTML = html;
         containers.rTeam.innerHTML = html;
-        
-        // สำหรับผู้รายงาน (เปลี่ยนเป็น Radio)
         containers.fSend.innerHTML = html.replace(/type="checkbox" class="st-chk"/g, 'type="radio" name="f_sender"');
         containers.rSend.innerHTML = html.replace(/type="checkbox" class="st-chk"/g, 'type="radio" name="r_sender"');
     }
@@ -199,10 +197,20 @@
 
         if (type === 'fire') {
             const place = document.getElementById('fire_place').value || '-';
-            const cars = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value].filter(v => v).join(', ') || '-';
+            const cars = [
+                document.getElementById('fire_car1').value, 
+                document.getElementById('fire_car2').value,
+                document.getElementById('fire_car3').value
+            ].filter(v => v).join(', ') || '-';
             const team = Array.from(document.querySelectorAll('#fire_team_list input:checked')).map(e => e.value).join(', ') || '-';
             const sender = (document.querySelector('input[name="f_sender"]:checked') || {value: '-'}).value;
-            const t = { 1: document.getElementById('f_t1').value || '-', 2: document.getElementById('f_t2').value || '-', 3: document.getElementById('f_t3').value || '-', 4: document.getElementById('f_t4').value || '-', 5: document.getElementById('f_t5').value || '-' };
+            const t = { 
+                1: document.getElementById('f_t1').value || '-', 
+                2: document.getElementById('f_t2').value || '-', 
+                3: document.getElementById('f_t3').value || '-', 
+                4: document.getElementById('f_t4').value || '-', 
+                5: document.getElementById('f_t5').value || '-' 
+            };
 
             text = `${dateStr}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\n------------------\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${cars}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
             json = { type: "เพลิงไหม้", date: dateStr, place: place, len: "-", staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: cars };
@@ -214,7 +222,13 @@
             const car = document.getElementById('res_car_single').value || '-';
             const team = Array.from(document.querySelectorAll('#res_team_list input:checked')).map(e => e.value).join(', ') || '-';
             const sender = (document.querySelector('input[name="r_sender"]:checked') || {value: '-'}).value;
-            const t = { 1: document.getElementById('r_t1').value || '-', 2: document.getElementById('r_t2').value || '-', 3: document.getElementById('r_t3').value || '-', 4: document.getElementById('r_t4').value || '-', 5: document.getElementById('r_t5').value || '-' };
+            const t = { 
+                1: document.getElementById('r_t1').value || '-', 
+                2: document.getElementById('r_t2').value || '-', 
+                3: document.getElementById('r_t3').value || '-', 
+                4: document.getElementById('r_t4').value || '-', 
+                5: document.getElementById('r_t5').value || '-' 
+            };
 
             text = `${dateStr}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animal})\n------------------\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${car}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
             json = { type: `501 (${animal})`, date: dateStr, place: place, len: size, staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: car };
@@ -228,25 +242,37 @@
 
     function closePreview() { document.getElementById('previewOverlay').style.display = 'none'; }
 
-    function sendFinal() {
+    async function sendFinal() {
         if (!pendingData) return;
         const { text, json } = pendingData;
         
-        // คัดลอกลงคลิปบอร์ด
-        const el = document.createElement('textarea');
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
+        // 1. คัดลอกลงคลิปบอร์ด
+        try {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        } catch (e) {}
 
-        // ส่งเข้า Sheets
-        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(json) });
-        
-        const hint = document.getElementById('copyHint');
-        hint.style.display = 'block';
-        setTimeout(() => { hint.style.display = 'none'; }, 2500);
-        closePreview();
+        // 2. ส่งเข้า Google Sheets ด้วยวิธีที่เสถียรกว่าเดิม
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(json)
+            });
+            
+            const hint = document.getElementById('copyHint');
+            hint.style.display = 'block';
+            setTimeout(() => { hint.style.display = 'none'; }, 2500);
+            closePreview();
+        } catch (err) {
+            alert("การส่งข้อมูลขัดข้อง กรุณาลองใหม่อีกครั้ง");
+            console.error(err);
+        }
     }
 </script>
 </body>
