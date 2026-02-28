@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ส.ดพ.บางบอน V2.4.1 (Official)</title>
+    <title>ส.ดพ.บางบอน V3.0.0 (Official)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1a1a1a; color: #e0e0e0; padding: 10px; margin: 0; }
@@ -24,7 +24,7 @@
         .modal-body { overflow-y: auto; flex-grow: 1; margin: 15px 0; background: #000; color: #00ff41; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; white-space: pre-wrap; font-size: 0.95em; border: 1px solid #333; }
         .copy-hint { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #4caf50; color: white; padding: 10px 25px; border-radius: 30px; font-weight: bold; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         
-        /* สไตล์สำหรับ Checkbox รายชื่อ */
+        /* สไตล์สำหรับ Selector */
         .staff-selector { background: #1a1a1a; border-radius: 8px; padding: 10px; margin-top: 5px; max-height: 180px; overflow-y: auto; border: 1px solid #444; }
         .staff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
         .staff-item { display: flex; align-items: center; gap: 8px; font-size: 0.85em; cursor: pointer; background: #333; padding: 4px 8px; border-radius: 4px; }
@@ -35,13 +35,13 @@
 <body>
 
 <header>
-    <h2>🚒 ส.ดพ.บางบอน (V2.4.1)</h2>
+    <h2>🚒 ส.ดพ.บางบอน (V3.0.0)</h2>
 </header>
 
 <div class="container">
     <div class="form-group group-fire">
         <h3>🔥 รายงานเหตุเพลิงไหม้</h3>
-        <label>📍 สถานที่เกิดเหตุ / พิกัด</label>
+        <label>📍 สถานที่เกิดเหตุ</label>
         <input type="text" id="fire_place" placeholder="ระบุสถานที่...">
         
         <label>🚒 รถที่ออกเหตุ</label>
@@ -78,161 +78,16 @@
         
         <label>👥 ผู้ออกปฏิบัติหน้าที่</label>
         <div class="staff-selector">
-            <div class="staff_checkbox_container_fire"></div>
+            <div class="staff_checkbox_container_fire_team"></div>
         </div>
         
-        <label>📢 ผู้รายงาน</label>
-        <input type="text" id="fire_sender" placeholder="เรียกขาน...">
+        <label>📢 ผู้รายงาน (เลือก 1 ท่าน)</label>
+        <div class="staff-selector">
+            <div class="staff_checkbox_container_fire_sender"></div>
+        </div>
         
         <button class="btn-submit btn-red" onclick="prepareReport('fire')">ตรวจสอบและส่งรายงานเพลิงไหม้</button>
     </div>
 
     <div class="form-group group-rescue">
-        <h3>🐾 ช่วยเหลือประชาชน / 501</h3>
-        <label>🐾 ชนิดสัตว์ / เหตุ</label>
-        <select id="res_type_text" onchange="toggleOtherInput()">
-            <option value="งูเหลือม">🐍 งูเหลือม</option>
-            <option value="งูเห่า">🐍 งูเห่า</option>
-            <option value="ตัวเงินตัวทอง">🦎 ตัวเงินตัวทอง</option>
-            <option value="เหตุอื่นๆ">🛠️ เหตุอื่นๆ</option>
-        </select>
-        <input type="text" id="res_type_other" style="display:none; margin-top:10px;" placeholder="ระบุเหตุอื่นๆ">
-
-        <label>📏 ขนาด/จำนวน</label>
-        <input type="text" id="res_len_text" placeholder="เช่น 2 เมตร">
-        <label>📍 สถานที่</label>
-        <input type="text" id="res_place" placeholder="บ้านเลขที่...">
-        
-        <label>🚒 รถที่ออกเหตุ</label>
-        <select id="res_car_single">
-            <option value="">-- เลือกคันรถ --</option>
-            <option value="บางบอน 061-1">บางบอน 061-1</option>
-            <option value="บางบอน 062-1">บางบอน 062-1</option>
-            <option value="บางบอน 041-1">บางบอน 041-1</option>
-            <option value="บางบอน 051-1">บางบอน 051-1</option>
-            <option value="บางบอน 052-1">บางบอน 052-1</option>
-            <option value="บางบอน 052-2">บางบอน 052-2</option>
-            <option value="บางบอน 053-1">บางบอน 053-1</option>
-        </select>
-
-        <div class="time-grid" style="margin-top: 10px;">
-            <div class="time-item"><label>รับแจ้ง</label><input type="time" id="r_t1"></div>
-            <div class="time-item"><label>แจ้งออก</label><input type="time" id="r_t2"></div>
-            <div class="time-item"><label>ว.10</label><input type="time" id="r_t3"></div>
-            <div class="time-item"><label>เลิก ว.10</label><input type="time" id="r_t4"></div>
-            <div class="time-item"><label>ว.10 ส.ดพ.</label><input type="time" id="r_t5"></div>
-        </div>
-
-        <label>👥 ผู้ออกปฏิบัติหน้าที่</label>
-        <div class="staff-selector">
-            <div class="staff_checkbox_container_res"></div>
-        </div>
-
-        <label>📢 ผู้รายงาน</label>
-        <input type="text" id="res_sender" placeholder="เรียกขาน...">
-        <button class="btn-submit btn-yellow" onclick="prepareReport('rescue')">ตรวจสอบและส่งรายงานการช่วยเหลือ</button>
-    </div>
-</div>
-
-<div id="previewOverlay" class="overlay">
-    <div class="modal-container">
-        <h3>📋 ตรวจสอบรายงาน</h3>
-        <div id="previewBody" class="modal-body"></div>
-        <div class="flex gap-3">
-            <button class="flex-1 bg-gray-600 p-3 rounded-lg font-bold" onclick="closePreview()">กลับ</button>
-            <button id="btnConfirmSend" class="flex-1 bg-green-600 p-3 rounded-lg font-bold text-white">ส่งข้อมูล</button>
-        </div>
-    </div>
-</div>
-
-<div id="copyHint" class="copy-hint">ส่งข้อมูลเรียบร้อย!</div>
-
-<script>
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVg9G5kYAWL6MfMpKclixCNiqs2K4Wu5z6-qXbrgLSmyQTuamO7tSuq81X3p9HPqGTpA/exec";
-
-    // สร้างรายชื่อพนักงานอัตโนมัติทั้ง 2 ส่วน
-    function initStaffSelectors() {
-        const containers = document.querySelectorAll('.staff_checkbox_container_fire, .staff_checkbox_container_res');
-        let html = '';
-        for (let g = 1; g <= 4; g++) {
-            html += `<div class="group-title">กลุ่มบางบอน ${g}-X</div><div class="staff-grid">`;
-            for (let i = 1; i <= 10; i++) {
-                const name = `บางบอน ${g}-${i}`;
-                html += `<label class="staff-item"><input type="checkbox" value="${name}"> ${name}</label>`;
-            }
-            html += `</div>`;
-        }
-        containers.forEach(c => c.innerHTML = html);
-    }
-    initStaffSelectors();
-
-    function getThaiDate() {
-        const now = new Date();
-        const months = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
-        return `วันที่ ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear() + 543}`;
-    }
-
-    function toggleOtherInput() {
-        const select = document.getElementById('res_type_text');
-        const otherInput = document.getElementById('res_type_other');
-        otherInput.style.display = (select.value === 'เหตุอื่นๆ') ? 'block' : 'none';
-    }
-
-    function prepareReport(type) {
-        let text = "";
-        let jsonData = {};
-
-        if (type === 'fire') {
-            const cars = [document.getElementById('fire_car1').value, document.getElementById('fire_car2').value].filter(v => v);
-            const carList = cars.join(', ') || '-';
-            const place = document.getElementById('fire_place').value || '-';
-            const sender = document.getElementById('fire_sender').value || '-';
-            const selectedStaff = Array.from(document.querySelectorAll('.staff_checkbox_container_fire input:checked')).map(el => el.value);
-            const team = selectedStaff.join(', ') || '-';
-            const t = { 1: document.getElementById('f_t1').value || '-', 2: document.getElementById('f_t2').value || '-', 3: document.getElementById('f_t3').value || '-', 4: document.getElementById('f_t4').value || '-', 5: document.getElementById('f_t5').value || '-' };
-
-            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🔥 รายงานเหตุเพลิงไหม้\n------------------\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${carList}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
-            jsonData = { type: "เพลิงไหม้", date: getThaiDate(), place: place, len: "-", staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: carList };
-        } else {
-            let animal = document.getElementById('res_type_text').value;
-            if(animal === 'เหตุอื่นๆ') animal = document.getElementById('res_type_other').value || 'เหตุอื่นๆ';
-            const car = document.getElementById('res_car_single').value || '-';
-            const size = document.getElementById('res_len_text').value || '-';
-            const place = document.getElementById('res_place').value || '-';
-            const sender = document.getElementById('res_sender').value || '-';
-            const selectedStaff = Array.from(document.querySelectorAll('.staff_checkbox_container_res input:checked')).map(el => el.value);
-            const team = selectedStaff.join(', ') || '-';
-            const t = { 1: document.getElementById('r_t1').value || '-', 2: document.getElementById('r_t2').value || '-', 3: document.getElementById('r_t3').value || '-', 4: document.getElementById('r_t4').value || '-', 5: document.getElementById('r_t5').value || '-' };
-
-            text = `${getThaiDate()}\nส.ดพ.บางบอน\n🐾 ช่วยเหลือประชาชน (${animal})\n------------------\n📏 ขนาด: ${size}\n📍 สถานที่: ${place}\n⏰ รับแจ้ง: ${t[1]} น\n⏰ แจ้งออก: ${t[2]} น\n⏰ ว.10: ${t[3]} น\n⏰ เลิก ว.10: ${t[4]} น\n⏰ ว.10 ส.ดพ.: ${t[5]} น\n🚒 รถที่ออก: ${car}\n👥 ผู้ปฏิบัติงาน: ${team}\n📢 ผู้รายงาน: ${sender}`;
-            jsonData = { type: `501 (${animal})`, date: getThaiDate(), place: place, len: size, staff: team, sender: sender, t1: t[1], t2: t[2], t3: t[3], t4: t[4], t5: t[5], car: car };
-        }
-
-        pendingReportData = { text, jsonData };
-        document.getElementById('previewBody').innerText = text;
-        document.getElementById('previewOverlay').style.display = 'flex';
-        document.getElementById('btnConfirmSend').onclick = finalSend;
-    }
-
-    function closePreview() { document.getElementById('previewOverlay').style.display = 'none'; }
-
-    async function finalSend() {
-        if (!pendingReportData) return;
-        const { text, jsonData } = pendingReportData;
-        try {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-        } catch (err) {}
-        fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(jsonData) });
-        const hint = document.getElementById('copyHint');
-        hint.style.display = 'block';
-        setTimeout(() => { hint.style.display = 'none'; }, 2500);
-        closePreview();
-    }
-</script>
-</body>
-</html>
+        <h3>
